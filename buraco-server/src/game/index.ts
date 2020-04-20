@@ -152,15 +152,18 @@ const game = ({
     card
   }: {
     player: Player,
-    card: Card
+    card: PlayerCard
   }) => {
     const index = player.hand.findIndex(handCard => handCard.id === card.id);
     player.hand.splice(index, 1);
+
     const wasMesaEmpty = mesa.length === 0;
+    const hasDiscardedTheSameDrawnCard = card.temp;
     mesa.push(card);
+
     makePlayerCardsDefinitive(player);
     handlePossiblyEmptyHand(player);
-    if (!wasMesaEmpty) {
+    if (!(wasMesaEmpty && hasDiscardedTheSameDrawnCard)) {
       finishTurn();
     }
   }
