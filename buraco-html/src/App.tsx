@@ -3,8 +3,9 @@ import styled from "styled-components";
 import logo from "./logo.svg";
 import "./App.css";
 import MainView from "./MainView";
+import Div from "./Div";
 
-const Container = styled.div`
+const Container = styled(Div)`
   display: flex;
   flex-direction: column;
   height: 100vh;
