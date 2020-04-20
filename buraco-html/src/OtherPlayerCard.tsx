@@ -28,18 +28,18 @@ const Container = styled.div<Props>`
   /* width: ${width}; */
   width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? height : width};
   /* margin-right: calc(-0.75 * ${width}); */
-  margin-right: ${({ position }) => position == "top" ? marginCard : "initial"};
-  margin-top: ${({ position }) => position == "left" ? marginCard : "initial"};
-  margin-bottom: ${({ position }) => position == "right" ? marginCard : "initial"};
+  margin-right: ${({ position }) => position === "top" ? marginCard : "initial"};
+  margin-top: ${({ position }) => position === "left" ? marginCard : "initial"};
+  margin-bottom: ${({ position }) => position === "right" ? marginCard : "initial"};
   height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? width : height};
   /* width: 3cm; */
   /* max-width: 7vw; */
 
   &:last-of-type {
     /* margin-right: 0; */
-    margin-right: ${({ position }) => position == "top" ? "0" : "initial"};
-    margin-top: ${({ position }) => position == "left" ? "0" : "initial"};
-    margin-bottom: ${({ position }) => position == "right" ? "0" : "initial"};
+    margin-right: ${({ position }) => position === "top" ? "0" : "initial"};
+    margin-top: ${({ position }) => position === "left" ? "0" : "initial"};
+    margin-bottom: ${({ position }) => position === "right" ? "0" : "initial"};
   }
 `;
 // @media (max-width: 10cm) {  
@@ -49,9 +49,9 @@ const Container = styled.div<Props>`
 //   /* height: 38px;
 //   width: 26px; */
 //   /* margin-right: calc(-0.75 * (100%/11 - (${marginRight} + 2*${borderWidth}))); */
-//   margin-right: ${({ position }) => position == "top" ? marginCardSmall : "initial"};
-//   margin-top: ${({ position }) => position == "left" ? marginCardSmall : "initial"};
-//   margin-bottom: ${({ position }) => position == "right" ? marginCardSmall : "initial"};
+//   margin-right: ${({ position }) => position === "top" ? marginCardSmall : "initial"};
+//   margin-top: ${({ position }) => position === "left" ? marginCardSmall : "initial"};
+//   margin-bottom: ${({ position }) => position === "right" ? marginCardSmall : "initial"};
 // }
 
 const Rotate = styled.div<Props>`
