@@ -9,7 +9,7 @@ body {
 
 @font-face {
   font-family: 'card-characters';
-  src: url('CARDC___.TTF');
+  src: url('fonts/cardcharacters/CARDC___.TTF');
 }
 
 code {
