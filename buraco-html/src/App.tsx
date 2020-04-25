@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { DndProvider } from 'react-dnd';
+import Backend from "react-dnd-html5-backend";
+// import Backend from "react-dnd-touch-backend";
 import logo from "./logo.svg";
 import "./App.css";
 import MainView from "./MainView";
@@ -15,7 +18,9 @@ const Container = styled(Div)`
 function App() {
   return (
     <Container>
-      <MainView />
+      <DndProvider backend={Backend}>
+        <MainView />
+      </DndProvider>
     </Container>
   );
 }

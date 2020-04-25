@@ -66,7 +66,11 @@ function Card({ card, position = "top" }: {
   const color = ["red", "blue"][back];
   return (
     <Container position={position}>
-      <img src={`./img/back-${color}.png`} style={{ width: "100%", height: "100%" }} />
+      <img
+        src={`./img/back-${color}.png`}
+        style={{ width: "100%", height: "100%" }}
+        draggable={false}
+      />
     </Container>
   );
 }

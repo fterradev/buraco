@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useDrag } from "react-dnd";
 import { Card as CardType } from "buraco/dist/deck";
 
 
@@ -22,7 +23,7 @@ const Container = styled.div<ContainerProps>`
   border-color: black;
   border-radius: 3px;
   margin-right: ${marginRight};
-  margin-bottom: ${({rowGap = ""}) => rowGap};
+  margin-bottom: ${({ rowGap = "" }) => rowGap};
   width: 2em;
   height: fit-content;
   @media (max-width: 10cm) {  
@@ -47,7 +48,21 @@ function Card({ card, rowGap }: {
       : ["=", "J", "Q", "K"][rank - 10];
   const realSuit = ["[", "]", "{", "}"][suit];
   const color = suit % 2 === 0 ? "red" : "black";
-  return <Container color={color} rowGap={rowGap}>
+
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: "Card" },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  })
+  return <Container
+    color={color}
+    rowGap={rowGap}
+    ref={drag}
+    style={{
+      opacity: isDragging ? 0.5 : 1
+    }}
+  >
     <div>{realRank}</div>
     <div>{realSuit}</div>
   </Container>;
