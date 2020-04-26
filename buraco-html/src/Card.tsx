@@ -9,6 +9,7 @@ const externalBorder = "5px"
 const borderWidth = "1px";
 interface ContainerProps {
   readonly rowGap: string;
+  readonly externalBorder: string;
 };
 const Container = styled.div<ContainerProps>`
   background-color: beige;
@@ -27,7 +28,7 @@ const Container = styled.div<ContainerProps>`
   width: 2em;
   height: fit-content;
   @media (max-width: 10cm) {  
-    width: calc((100vw - 2*${externalBorder})/11 - (${marginRight} + 2*${borderWidth}));
+    width: calc((100vw - 2*${({ externalBorder = "5px" }) => externalBorder})/11 - (${marginRight} + 2*${borderWidth}));
   }
   /* width: 3cm; */
   /* max-width: 7vw; */
@@ -36,9 +37,10 @@ const Container = styled.div<ContainerProps>`
     margin-right: 0;
   } */
 `;
-function Card({ card, rowGap }: {
+function Card({ card, rowGap, externalBorder = "5px" }: {
   card: CardType,
-  rowGap: string
+  rowGap: string,
+  externalBorder: string,
 }) {
   const { rank, suit } = card;
   const realRank = (1 <= rank) && (rank <= 9)
@@ -58,6 +60,7 @@ function Card({ card, rowGap }: {
   return <Container
     color={color}
     rowGap={rowGap}
+    externalBorder={externalBorder}
     ref={drag}
     style={{
       opacity: isDragging ? 0.5 : 1

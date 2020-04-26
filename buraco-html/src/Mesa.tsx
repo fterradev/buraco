@@ -21,14 +21,17 @@ const MesaWithSidePlayers = styled.div`
   flex-direction: row;
   flex: 1;
 `;
-const MesaItself = styled.div`
+interface MesaItselfProps {
+  readonly externalBorder?: string;
+};
+const MesaItself = styled.div<MesaItselfProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
   /* flex-grow: 1; */
   flex-wrap: wrap;
-  padding: 5px;
+  padding: ${({ externalBorder = "5px" }) => externalBorder};
 `;
 const C = styled.div`
   /* flex: 1; */
@@ -69,6 +72,7 @@ function Mesa(options: {
               key={card.id}
               card={card}
               rowGap={rowGap}
+              externalBorder="5px"
             />
           })}
         </DiscardedCards>
