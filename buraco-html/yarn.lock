@@ -3906,6 +3906,11 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+drag-drop-touch@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/drag-drop-touch/-/drag-drop-touch-1.3.1.tgz#bf1a6a89c0e793a04a524ca2317301d684375c7e"
+  integrity sha512-Q0/ZgsnW7VUjn+YqSnp1rvxjjPnZX5YLyVaw28einood+eTMcLzgOgHk8nyqIF9O18J68l+2htlEnbw5GsyTvQ==
+
 duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
@@ -8775,14 +8780,6 @@ react-dnd-html5-backend@^10.0.2:
   resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-10.0.2.tgz#15cb9d2b923f43576a136df854e288cb5969784c"
   integrity sha512-ny17gUdInZ6PIGXdzfwPhoztRdNVVvjoJMdG80hkDBamJBeUPuNF2Wv4D3uoQJLjXssX1+i9PhBqc7EpogClwQ==
   dependencies:
-    dnd-core "^10.0.2"
-
-react-dnd-touch-backend@^10.0.2:
-  version "10.0.2"
-  resolved "https://registry.yarnpkg.com/react-dnd-touch-backend/-/react-dnd-touch-backend-10.0.2.tgz#90cb916655539b838d49b8895e1813f8b874b3b4"
-  integrity sha512-+lW/Ern0dKyHToD0oP+Wc/ZD6l7qJazosLqbjzL7OnPlig6WxdlrHkJylOLkeAdZj41fIJJ551Lb57pIL0CcPw==
-  dependencies:
-    "@react-dnd/invariant" "^2.0.0"
     dnd-core "^10.0.2"
 
 react-dnd@^10.0.2:
