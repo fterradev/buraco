@@ -3,13 +3,11 @@ import styled from "styled-components";
 import { useDrag } from "react-dnd";
 import { Card as CardType } from "buraco/dist/deck";
 
-
-const marginRight = "5px";
-const externalBorder = "5px"
 const borderWidth = "1px";
 interface ContainerProps {
   readonly rowGap: string;
   readonly externalBorder: string;
+  readonly marginCards: string;
 };
 const Container = styled.div<ContainerProps>`
   background-color: beige;
@@ -23,24 +21,25 @@ const Container = styled.div<ContainerProps>`
   border-style: solid;
   border-color: black;
   border-radius: 3px;
-  margin-right: ${marginRight};
+  margin-left: ${({ marginCards }) => marginCards};
   margin-bottom: ${({ rowGap = "" }) => rowGap};
   width: 2em;
   height: fit-content;
   @media (max-width: 10cm) {  
-    width: calc((100vw - 2*${({ externalBorder = "5px" }) => externalBorder})/11 - (${marginRight} + 2*${borderWidth}));
+    width: ${({ externalBorder = "5px", marginCards }) => `calc((100vw - 2*${externalBorder}})/11 - (${marginCards} + 2*${borderWidth}))`};
   }
   /* width: 3cm; */
   /* max-width: 7vw; */
 
   /* &:last-child {
-    margin-right: 0;
+    margin-left: 0;
   } */
 `;
-function Card({ card, rowGap, externalBorder = "5px" }: {
+function Card({ card, rowGap, externalBorder, marginCards }: {
   card: CardType,
   rowGap: string,
-  externalBorder: string,
+  externalBorder: string, // In fact this should be a context value. Should specially reflect the externalBorder in Hand's Container component.
+  marginCards: string,
 }) {
   const { rank, suit } = card;
   const realRank = (1 <= rank) && (rank <= 9)
@@ -61,6 +60,7 @@ function Card({ card, rowGap, externalBorder = "5px" }: {
     color={color}
     rowGap={rowGap}
     externalBorder={externalBorder}
+    marginCards={marginCards}
     ref={drag}
     style={{
       opacity: isDragging ? 0.5 : 1

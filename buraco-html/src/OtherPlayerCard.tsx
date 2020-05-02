@@ -5,7 +5,6 @@ import { Card as CardType } from "buraco/dist/deck";
 interface Props {
   readonly position: string;
 };
-const marginRight = "5px";
 const borderWidth = "1px";
 const width = "1em";
 const height = "1.5em";
@@ -42,21 +41,6 @@ const Container = styled.div<Props>`
     margin-bottom: ${({ position }) => position === "right" ? "0" : "initial"};
   }
 `;
-// @media (max-width: 10cm) {  
-//   /* width: calc(100%/11 - (${marginRight} + 2*${borderWidth})); */
-//   height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? widthSmall : "initial"};
-//   width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : widthSmall};
-//   /* height: 38px;
-//   width: 26px; */
-//   /* margin-right: calc(-0.75 * (100%/11 - (${marginRight} + 2*${borderWidth}))); */
-//   margin-right: ${({ position }) => position === "top" ? marginCardSmall : "initial"};
-//   margin-top: ${({ position }) => position === "left" ? marginCardSmall : "initial"};
-//   margin-bottom: ${({ position }) => position === "right" ? marginCardSmall : "initial"};
-// }
-
-const Rotate = styled.div<Props>`
-  transform: rotate(${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]});
-`;
 
 function Card({ card, position = "top" }: {
   card: CardType,
@@ -70,6 +54,7 @@ function Card({ card, position = "top" }: {
         src={`./img/back-${color}.png`}
         style={{ width: "100%", height: "100%" }}
         draggable={false}
+        alt=""
       />
     </Container>
   );

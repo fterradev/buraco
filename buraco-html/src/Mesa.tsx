@@ -21,36 +21,26 @@ const MesaWithSidePlayers = styled.div`
   flex-direction: row;
   flex: 1;
 `;
-interface MesaItselfProps {
-  readonly externalBorder?: string;
-};
-const MesaItself = styled.div<MesaItselfProps>`
+
+const MesaItself = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
   /* flex-grow: 1; */
   flex-wrap: wrap;
-  padding: ${({ externalBorder = "5px" }) => externalBorder};
+  padding: 10px;
 `;
-const C = styled.div`
-  /* flex: 1; */
+
+interface DiscardedCardsProps {
+  readonly marginCards: string;
+};
+const DiscardedCards = styled.div<DiscardedCardsProps>`
   display: flex;
-`;
-const C1 = styled(C)`
-  background-color: red;
-  /* flex-direction: column; */
-  /* position: relative; */
-`;
-const C2 = styled(C)`
-flex: 1;
-  background-color: blue;
-`;
-const DiscardedCards = styled.div`
-display: flex;
-/* flex: 1; */
-/* flex-grow: 1; */
-flex-wrap: wrap;
+  /* flex: 1; */
+  /* flex-grow: 1; */
+  flex-wrap: wrap;
+  margin-left: ${({ marginCards }) => `-${marginCards}`};
 `;
 function Mesa(options: {
   deckLength: number,
@@ -58,6 +48,7 @@ function Mesa(options: {
   mortosLength: number,
   players: Player[]
 }) {
+  const marginCards = "5px";
   return <Container>
     <OtherPlayer player={options.players[0]} />
     <MesaWithSidePlayers>
@@ -66,13 +57,14 @@ function Mesa(options: {
       <OtherPlayer player={options.players[1]} position="left" color="blue" />
       {/* </C1> */}
       <MesaItself>
-        <DiscardedCards>
+        <DiscardedCards marginCards={marginCards} >
           {options.cards.map(card => {
             return <Card
               key={card.id}
               card={card}
               rowGap={rowGap}
               externalBorder="5px"
+              marginCards={marginCards}
             />
           })}
         </DiscardedCards>
