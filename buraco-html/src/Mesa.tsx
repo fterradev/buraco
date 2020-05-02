@@ -58,13 +58,15 @@ function Mesa(options: {
       {/* </C1> */}
       <MesaItself>
         <DiscardedCards marginCards={marginCards} >
-          {options.cards.map(card => {
+          {options.cards.map((card, index) => {
             return <Card
               key={card.id}
               card={card}
               rowGap={rowGap}
               externalBorder="5px"
               marginCards={marginCards}
+              index={index}
+              onDropCard={() => {}}
             />
           })}
         </DiscardedCards>
