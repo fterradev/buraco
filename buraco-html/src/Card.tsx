@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useDrag, useDrop } from "react-dnd";
 import { Card as CardType } from "buraco/dist/deck";
 import DropHighlighter from "./DropHighlighter";
 
@@ -57,44 +56,15 @@ function Card({ card, rowGap, externalBorder, marginCards, index, onDropCard }: 
       : ["=", "J", "Q", "K"][rank - 10];
   const realSuit = ["[", "]", "{", "}"][suit];
   const color = suit % 2 === 0 ? "red" : "black";
-
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: "Card", card, index },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  })
-
-  const [{ isOver }, drop] = useDrop({
-    accept: "Card",
-    canDrop: (item: any) => item.id !== id,
-    drop: (item) => {
-      console.log("dropped");
-      onDropCard(item, index);
-    },
-    // hover: (item, monitor) => {
-
-    // },
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
-    }),
-  })
-  return <DropContainer ref={drop}>
-    <Container
-      color={color}
-      rowGap={rowGap}
-      externalBorder={externalBorder}
-      marginCards={marginCards}
-      ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 1
-      }}
-    >
-      <div>{realRank}</div>
-      <div>{realSuit}</div>
-    </Container>
-    <DropHighlighter activate={isOver} />
-  </DropContainer>;
+  return <Container
+    color={color}
+    rowGap={rowGap}
+    externalBorder={externalBorder}
+    marginCards={marginCards}
+  >
+    <div>{realRank}</div>
+    <div>{realSuit}</div>
+  </Container>;
 }
 
 export default Card;
