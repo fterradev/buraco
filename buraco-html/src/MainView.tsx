@@ -47,7 +47,6 @@ function MainView() {
     />
     <Hand
       cards={handCards}
-      dropActivated={false}
     />
   </Container>;
 }

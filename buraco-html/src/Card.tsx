@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
-import DropHighlighter from "./DropHighlighter";
 
 const borderWidth = "1px";
 interface ContainerProps {
@@ -35,20 +34,13 @@ const Container = styled.div<ContainerProps>`
     margin-left: 0;
   } */
 `;
-
-const DropContainer = styled.div`
-  position: relative;
-`;
-
-function Card({ card, rowGap, externalBorder, marginCards, index, onDropCard }: {
+function Card({ card, rowGap, externalBorder, marginCards }: {
   card: CardType,
   rowGap: string,
   externalBorder: string, // In fact this should be a context value. Should specially reflect the externalBorder in Hand's Container component.
   marginCards: string,
-  index: number,
-  onDropCard: (item: any, index: number) => void
 }) {
-  const { id, rank, suit } = card;
+  const { rank, suit } = card;
   const realRank = (1 <= rank) && (rank <= 9)
     ? String(rank)
     : rank === 0
