@@ -41,28 +41,15 @@ const DropContainer = styled.div`
   position: relative;
 `;
 
-function Card({
-  card,
-  rowGap,
-  externalBorder,
-  marginCards,
-  index,
-  onDropCard,
-  onBeginDrag,
-  onEndDrag,
-  onEnteredHover,
-  onExitedHover
-}: {
+function Card({ card, rowGap, externalBorder, marginCards, index, onHover, onEndDrag, updateIsOver }: {
   card: CardType,
   rowGap: string,
   externalBorder: string, // In fact this should be a context value. Should specially reflect the externalBorder in Hand's Container component.
   marginCards: string,
   index: number,
-  onDropCard: (item: any, index: number) => void,
-  onBeginDrag: () => void,
-  onEndDrag: () => void,
-  onEnteredHover: (item: any) => void,
-  onExitedHover: () => void
+  onHover: (item: any, index: number) => void,
+  onEndDrag: (result?: boolean) => void,
+  updateIsOver: (isOver: boolean) => void
 }) {
   const { id, rank, suit } = card;
   const realRank = (1 <= rank) && (rank <= 9)
@@ -75,50 +62,55 @@ function Card({
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: "Card", card, index },
+    end: (result: boolean | undefined, monitor) => {
+      console.log({result});
+      console.log(monitor.getDropResult())
+      if (result) {
+
+      }
+    },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
-    begin: monitor => {
-      onBeginDrag();
-    },
-    end: (dropResult) => {
-      onEndDrag();
-    }
-  });
+  })
 
   const [wasOver, setWasOver] = useState(false);
 
-  const [{ isOver, item }, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: "Card",
     canDrop: (item: any) => item.card.id !== id,
+    // drop: (item) => {
+    //   console.log("dropped");
+    //   monitor.canDrop()
+    // },
     hover: (item, monitor) => {
+      // monitor.canDrop() && onDropCard(item, index);
+      // if (monitor.canDrop()) {
+      //   console.log("cccc")
+      // }
       if (!wasOver && monitor.canDrop()) {
-        // console.log("aaa");
-        // onEnteredHover(item);
+        console.log("aaa");
+        onHover(item, index);
       }
+    },
+    drop: (item, monitor) => {
+      return {success: monitor.canDrop()};
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
-      item: monitor.getItem(),
+      canDrop: !!monitor.canDrop(),
     }),
   });
 
+  if (isOver !== wasOver) {
+    setWasOver(isOver);
+  }
   useEffect(() => {
-    if (isOver !== wasOver) {
-      if (isOver) {
-        console.log("enter", index);
-        if (item) {
-          console.log("item", index);
-          onEnteredHover(item);
-        }
-      } else {
-        console.log("exit", index);
-        onExitedHover();
-      }
-      setWasOver(isOver);
+    updateIsOver(isOver);
+    return () => {
+      updateIsOver(false);
     }
-  }, [isOver, item]);
-
+  }, [isOver]);
   return <DropContainer ref={drop}>
     <Container
       color={color}

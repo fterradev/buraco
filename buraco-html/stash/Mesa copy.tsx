@@ -66,11 +66,9 @@ function Mesa(options: {
               externalBorder="5px"
               marginCards={marginCards}
               index={index}
-              onDropCard={() => {}}
-              onBeginDrag={() => {}}
+              onHover={() => {}}
               onEndDrag={() => {}}
-              onEnteredHover={() => {}}
-              onExitedHover={() => {}}
+              updateIsOver={() => {}}
             />
           })}
         </DiscardedCards>

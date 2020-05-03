@@ -22,20 +22,20 @@ const Container = styled.div<ContainerProps>`
   padding: ${({ externalBorder = defaultExternalBorder }) => `${externalBorder} ${externalBorder} 0 ${externalBorder}`};
   margin-left: ${`-${marginCards}`};
 `;
-interface CardInfo {
-  card: CardType;
-  index: number;
-}
 function Hand(options: {
   cards: CardSet,
   dropActivated: boolean
 }) {
   const { cards, dropActivated } = options;
   const [orderedCards, setOrderedCards] = useState([...cards]);
-  const [withoutDraggingCard, setWithoutDraggingCard] = useState([...cards]);
-  // const [originalOrderedCards, setOriginalOrderedCards] = useState([...cards]);
+  interface CardInfo {
+    card: CardType;
+    sourceIndex: number;
+  }
   const [draggingCardInfo, setDraggingCardInfo] = useState<CardInfo>();
-  const [hoverIndex, setHoverIndex] = useState<number>();
+  const [withoutDraggingCard, setWithoutDraggingCard] = useState([...cards]);
+  const [isOverCards, setIsOverCards] = useState<boolean[]>([]);
+  // const [orderedCards, setOrderedCards] = useState({ cards: [...cards], withoutDragging: [...cards] });
   const [{ isOver }, drop] = useDrop({
     accept: "Card",
     canDrop: () => dropActivated,
@@ -44,44 +44,48 @@ function Hand(options: {
       isOver: !!(monitor.canDrop() && monitor.isOver()),
     }),
   })
-  // console.log(orderedCards);
+  if (
+    isOverCards.every(item => (item === false))
+    && draggingCardInfo
+    && orderedCards.length !== cards.length
+  ) {
+    const { card, sourceIndex } = draggingCardInfo;
+    const result = [...withoutDraggingCard.slice(0, sourceIndex), ...withoutDraggingCard.slice(sourceIndex)];
+    setOrderedCards(result);
+    // setDraggingCardInfo(undefined);
+  }
   return <Container ref={drop}>
     {orderedCards.map((card, index) => {
       return <Card
-        key={index}
+        key={card.id}
         card={card}
         rowGap={rowGap}
         externalBorder={defaultExternalBorder}
         marginCards={marginCards}
         index={index}
-        onBeginDrag={() => {
-          setDraggingCardInfo({ card: orderedCards[index], index });
-          setWithoutDraggingCard([...orderedCards.slice(0, index), ...orderedCards.slice(index + 1)]);
-          console.log([...orderedCards.slice(0, index), ...orderedCards.slice(index)]);
-        }}
-        onEndDrag={() => {
-          
-        }}
-        onEnteredHover={(item: any) => {
-          setHoverIndex(index);
-          console.log(item.card);
-          const result = [...withoutDraggingCard.slice(0, index), item.card, ...withoutDraggingCard.slice(index)];
-          setOrderedCards(result);
-          // console.log(result);
-        }}
-        onExitedHover={() => {
-          if (hoverIndex === index) {
-            setHoverIndex(undefined);
-            setOrderedCards([...withoutDraggingCard]);
-          }
-        }}
-        onDropCard={(item: any, index: any) => {
+        onHover={(item: any, index: any) => {
+          console.log("ooo");
           const card = item.card;
           const sourceIndex = item.index;
           // setOrderedCards([...orderedCards.slice(0, index), card, ...orderedCards.slice(index, sourceIndex), ...orderedCards.slice(sourceIndex + 1)]);
-          const withoutMovedCard = [...orderedCards.slice(0, sourceIndex), ...orderedCards.slice(sourceIndex + 1)];
-          const result = [...withoutMovedCard.slice(0, index), card, ...withoutMovedCard.slice(index)];
-          setOrderedCards(result);
+          let localWithoutDraggingCard = withoutDraggingCard;
+          if (withoutDraggingCard.length === orderedCards.length) {
+            localWithoutDraggingCard = [...orderedCards.slice(0, sourceIndex), ...orderedCards.slice(sourceIndex + 1)];
+            setDraggingCardInfo({ card: orderedCards[sourceIndex], sourceIndex });
+            setWithoutDraggingCard(localWithoutDraggingCard);
+            console.log({ localWithoutDraggingCard })
+          }
+          if (orderedCards.length !== localWithoutDraggingCard.length) {
+            console.log({ w2: localWithoutDraggingCard });
+            const result = [...localWithoutDraggingCard.slice(0, index), card, ...localWithoutDraggingCard.slice(index)];
+            setOrderedCards(result);
+          }
+        }}
+        onEndDrag={() => {
+          setWithoutDraggingCard(orderedCards);
+        }}
+        updateIsOver={(isOver) => {
+          setIsOverCards([...isOverCards.slice(0, index), isOver, ...isOverCards.slice(index + 1)]);
         }}
       />
     })}
