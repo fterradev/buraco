@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Card from "./Card";
 import { Player } from "buraco/dist/game";
 import OtherPlayer from "./OtherPlayer";
+import { Droppable } from "react-beautiful-dnd";
 
 const rowGap = "5px";
 
@@ -57,17 +58,26 @@ function Mesa(options: {
       <OtherPlayer player={options.players[1]} position="left" color="blue" />
       {/* </C1> */}
       <MesaItself>
-        <DiscardedCards marginCards={marginCards} >
-          {options.cards.map(card => {
-            return <Card
-              key={card.id}
-              card={card}
-              rowGap={rowGap}
-              externalBorder="5px"
+        <Droppable droppableId="discarded" direction="horizontal">
+          {(provided) => (
+            <DiscardedCards
               marginCards={marginCards}
-            />
-          })}
-        </DiscardedCards>
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {options.cards.map((card, index) => {
+                return <Card
+                  key={card.id}
+                  index={index}
+                  card={card}
+                  rowGap={rowGap}
+                  externalBorder="5px"
+                  marginCards={marginCards}
+                />
+              })}
+            </DiscardedCards>
+          )}
+        </Droppable>
       </MesaItself>
       <OtherPlayer player={options.players[2]} position="right" color="blue" />
       {/* <C1>oi</C1>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
+import { Draggable } from "react-beautiful-dnd";
 
 const borderWidth = "1px";
 interface ContainerProps {
@@ -34,11 +35,12 @@ const Container = styled.div<ContainerProps>`
     margin-left: 0;
   } */
 `;
-function Card({ card, rowGap, externalBorder, marginCards }: {
+function Card({ card, rowGap, externalBorder, marginCards, index }: {
   card: CardType,
   rowGap: string,
   externalBorder: string, // In fact this should be a context value. Should specially reflect the externalBorder in Hand's Container component.
   marginCards: string,
+  index: number,
 }) {
   const { rank, suit } = card;
   const realRank = (1 <= rank) && (rank <= 9)
@@ -48,15 +50,24 @@ function Card({ card, rowGap, externalBorder, marginCards }: {
       : ["=", "J", "Q", "K"][rank - 10];
   const realSuit = ["[", "]", "{", "}"][suit];
   const color = suit % 2 === 0 ? "red" : "black";
-  return <Container
-    color={color}
-    rowGap={rowGap}
-    externalBorder={externalBorder}
-    marginCards={marginCards}
-  >
-    <div>{realRank}</div>
-    <div>{realSuit}</div>
-  </Container>;
+  return (
+    <Draggable draggableId={String(card.id)} index={index}>
+      {(provided) => (
+        <Container
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          color={color}
+          rowGap={rowGap}
+          externalBorder={externalBorder}
+          marginCards={marginCards}
+        >
+          <div>{realRank}</div>
+          <div>{realSuit}</div>
+        </Container>
+      )}
+    </Draggable>
+  );
 }
 
 export default Card;
