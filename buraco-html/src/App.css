@@ -12,6 +12,10 @@
   -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
 }
 
+.sortable-ghost {
+  visibility: hidden;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

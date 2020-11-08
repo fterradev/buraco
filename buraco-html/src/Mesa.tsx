@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardSet } from "buraco/dist/deck";
 import styled from "styled-components";
 import Card from "./Card";
 import { Player } from "buraco/dist/game";
 import OtherPlayer from "./OtherPlayer";
+import Sortable from "./Sortable";
 
 const rowGap = "5px";
 
@@ -34,48 +35,64 @@ const MesaItself = styled.div`
 
 interface DiscardedCardsProps {
   readonly marginCards: string;
-};
+}
 const DiscardedCards = styled.div<DiscardedCardsProps>`
   display: flex;
   /* flex: 1; */
   /* flex-grow: 1; */
   flex-wrap: wrap;
-  margin-left: ${({ marginCards }) => `-${marginCards}`};
+  margin-left: ${({ marginCards = "5px" }) => `-${marginCards}`};
 `;
 function Mesa(options: {
-  deckLength: number,
-  cards: CardSet,
-  mortosLength: number,
-  players: Player[]
+  deckLength: number;
+  cards: CardSet;
+  mortosLength: number;
+  players: Player[];
 }) {
   const marginCards = "5px";
-  return <Container>
-    <OtherPlayer player={options.players[0]} />
-    <MesaWithSidePlayers>
-      {/* <C1>oi</C1> */}
-      {/* <C1> */}
-      <OtherPlayer player={options.players[1]} position="left" color="blue" />
-      {/* </C1> */}
-      <MesaItself>
-        <DiscardedCards marginCards={marginCards} >
-          {options.cards.map((card, index) => {
-            return <Card
-              key={card.id}
-              card={card}
-              rowGap={rowGap}
-              externalBorder="5px"
-              marginCards={marginCards}
-              index={index}
-              onDropCard={() => {}}
-            />
-          })}
-        </DiscardedCards>
-      </MesaItself>
-      <OtherPlayer player={options.players[2]} position="right" color="blue" />
-      {/* <C1>oi</C1>
+  const [orderedCards, setOrderedCards] = useState(options.cards);
+  return (
+    <Container>
+      <OtherPlayer player={options.players[0]} />
+      <MesaWithSidePlayers>
+        {/* <C1>oi</C1> */}
+        {/* <C1> */}
+        <OtherPlayer player={options.players[1]} position="left" color="blue" />
+        {/* </C1> */}
+        <MesaItself>
+          <Sortable
+            tag={DiscardedCards}
+            list={orderedCards}
+            setList={setOrderedCards}
+            group={{
+              name: "mesa",
+              put: true
+            }}
+          >
+            {orderedCards.map((card, index) => {
+              return (
+                <Card
+                  key={card.id}
+                  index={index}
+                  card={card}
+                  rowGap={rowGap}
+                  externalBorder="5px"
+                  marginCards={marginCards}
+                />
+              );
+            })}
+          </Sortable>
+        </MesaItself>
+        <OtherPlayer
+          player={options.players[2]}
+          position="right"
+          color="blue"
+        />
+        {/* <C1>oi</C1>
       <C2>xau</C2> */}
-    </MesaWithSidePlayers>
-  </Container>;
+      </MesaWithSidePlayers>
+    </Container>
+  );
 }
 
 export default Mesa;
