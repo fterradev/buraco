@@ -53,7 +53,7 @@ const prepareMortos = (deck: CardSet): [PlayerCardSet, PlayerCardSet] => {
   return [morto1, morto2];
 }
 
-class Game {
+export default class Game {
   teams: [Team, Team];
   playersOrder: [Player, Player, Player, Player];
   whoseTurn: number = Math.floor(Math.random() * 4);

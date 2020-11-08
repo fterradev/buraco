@@ -6,14 +6,17 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Fernando Terra",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.15",
     "@types/node": "^13.11.1",
     "@types/socket.io": "^2.1.4",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
     "tslint": "^6.1.1",
     "typescript": "^3.8.3"
   },
