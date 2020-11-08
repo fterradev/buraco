@@ -11,12 +11,14 @@ export interface Player {
   id: number,
   name: string,
   hand: PlayerCardSet,
-  team: Team
+  team: Team,
+  hasGoneOut: boolean,
 }
 
 export interface Team {
   players: [Player, Player];
   sequences: CardSet[];
+  hasPickedUpMorto: boolean;
 }
 
 // enum TurnStatus {
@@ -60,6 +62,7 @@ class Game {
   mortos: CardSet[];
   gameOver = false;
   playerHasDrawn = false;
+  isLastTurn = false;
   
   constructor(teams: [Team, Team]) {
     this.teams = teams;
@@ -76,11 +79,12 @@ class Game {
   }
 
   private finishTurn = () => {
+    if (this.gameOver) {
+      return;
+    }
     if (this.deck.length === 0) {
       if (this.mortos.length > 0) {
         this.deck.concat(this.mortos.pop());
-      } else {
-        this.gameOver = true;
       }
     }
     if (!this.gameOver) {
@@ -102,6 +106,9 @@ class Game {
     const cards = this.mesa.splice(0);
     player.hand.concat(turnIntoPlayerCards(cards, { temp: true }));
     this.playerHasDrawn = true;
+    if (this.deck.length === 0) {
+      this.isLastTurn = true;
+    }
   }
 
   public createSequence = (player: Player, sequece: CardSet) => {
@@ -124,10 +131,14 @@ class Game {
 
   private handlePossiblyEmptyHand = (player: Player) => {
     if (player.hand.length === 0) {
-      if (this.mortos.length > 0) {
-        player.hand = turnIntoPlayerCards(this.mortos.pop());
+      if (!player.team.hasPickedUpMorto && this.mortos.length > 0) {
+        player.team.hasPickedUpMorto = true;
+        if (!this.gameOver) {
+          player.hand = turnIntoPlayerCards(this.mortos.pop());
+        }
       } else {
         this.gameOver = true;
+        player.hasGoneOut = true;
       }
     }
   }
@@ -145,8 +156,11 @@ class Game {
     const wasMesaEmpty = this.mesa.length === 0;
     const hasDiscardedTheSameDrawnCard = card.temp;
     this.mesa.push(card);
-
     makePlayerCardsDefinitive(player);
+    if (this.isLastTurn) {
+      this.gameOver = true;
+    }
+
     this.handlePossiblyEmptyHand(player);
     if (!(wasMesaEmpty && hasDiscardedTheSameDrawnCard)) {
       this.finishTurn();
