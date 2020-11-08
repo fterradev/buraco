@@ -1,4 +1,4 @@
-import initialDeck, { Card, CardSet } from "../deck";
+import { Card, CardSet, getNewDeck } from "../deck";
 import shuffle from "fisher-yates";
 
 export interface PlayerCard extends Card {
@@ -23,15 +23,6 @@ export interface Team {
 //   initial,
 //   hasDrawn,
 // }
-
-interface Game {
-  teams: [Team, Team],
-  deck: CardSet,
-  whoseTurn: number,
-  // turnStatus: 
-  mesa: CardSet,
-  playersOrder: [Player, Player, Player, Player]
-}
 
 const turnIntoPlayerCards = (
   cards: CardSet,
@@ -60,94 +51,88 @@ const prepareMortos = (deck: CardSet): [PlayerCardSet, PlayerCardSet] => {
   return [morto1, morto2];
 }
 
-const game = ({
-  teams,
-  initialDeck,
-}: {
-  teams: [Team, Team],
-  initialDeck: CardSet
-}) => {
-  const deck: CardSet = shuffle(initialDeck);
-  const mortos: CardSet[] = prepareMortos(deck);
-  const mesa: CardSet = [];
+class Game {
+  teams: [Team, Team];
+  playersOrder: [Player, Player, Player, Player];
+  whoseTurn: number = Math.floor(Math.random() * 4);
+  deck: CardSet = shuffle(getNewDeck());
+  mesa: CardSet = [];
+  mortos: CardSet[];
+  gameOver = false;
+  playerHasDrawn = false;
+  
+  constructor(teams: [Team, Team]) {
+    this.teams = teams;
+    this.playersOrder = [
+      teams[0].players[0],
+      teams[1].players[0],
+      teams[0].players[1],
+      teams[1].players[1]
+    ];
+    this.playersOrder.forEach(player => {
+      player.hand = prepareHand(this.deck);
+    });
+    this.mortos = prepareMortos(this.deck);
+  }
 
-  teams.forEach(team => {
-    team.players.forEach(player => {
-      player.hand = prepareHand(deck);
-    })
-  })
-
-  const playersOrder = [
-    teams[0].players[0],
-    teams[1].players[0],
-    teams[0].players[1],
-    teams[1].players[1]
-  ];
-  teams.forEach((team, index) => {
-    const { players } = team;
-    players.forEach(player => {
-      player.team = team;
-    })
-  })
-  let whoseTurn = Math.floor(Math.random() * 4);
-
-  let gameOver = false;
-
-  const finishTurn = () => {
-    if (deck.length === 0) {
-      if (mortos.length > 0) {
-        deck.concat(mortos.pop());
+  private finishTurn = () => {
+    if (this.deck.length === 0) {
+      if (this.mortos.length > 0) {
+        this.deck.concat(this.mortos.pop());
       } else {
-        gameOver = true;
+        this.gameOver = true;
       }
     }
-    if (!gameOver) {
-      whoseTurn++;
-      if (whoseTurn === 4) {
-        whoseTurn = 0;
+    if (!this.gameOver) {
+      this.whoseTurn++;
+      this.playerHasDrawn = false;
+      if (this.whoseTurn === 4) {
+        this.whoseTurn = 0;
       }
     }
   }
 
-  const drawFromDeck = (player: Player) => {
-    const card = deck.pop();
+  public drawFromDeck = (player: Player) => {
+    const card = this.deck.pop();
     player.hand.concat(turnIntoPlayerCards([card], { temp: true }));
+    this.playerHasDrawn = true;
   }
 
-  const drawFromMesa = (player: Player) => {
-    const cards = mesa.splice(0);
+  public drawFromMesa = (player: Player) => {
+    const cards = this.mesa.splice(0);
     player.hand.concat(turnIntoPlayerCards(cards, { temp: true }));
+    this.playerHasDrawn = true;
   }
 
-  const createSequence = (player: Player, cards: CardSet) => {
-    cards.forEach(card => {
+  public createSequence = (player: Player, sequece: CardSet) => {
+    sequece.forEach(card => {
       const index = player.hand.findIndex(handCard => handCard.id === card.id);
       player.hand.splice(index, 1);
     })
-    player.team.sequences.push(cards);
-    handlePossiblyEmptyHand(player);
+    player.team.sequences.push(sequece);
+    this.handlePossiblyEmptyHand(player);
   }
 
-  const insertIntoSequence = (player: Player, cards: CardSet, sequenceIndex: number, resultantSequence: CardSet) => {
+  public insertIntoSequence = (player: Player, cards: CardSet, sequenceIndex: number, resultantSequence: CardSet) => {
     cards.forEach(card => {
       const index = player.hand.findIndex(handCard => handCard.id === card.id);
       player.hand.splice(index, 1);
     })
     player.team.sequences[sequenceIndex] = resultantSequence;
-    handlePossiblyEmptyHand(player);
+    this.handlePossiblyEmptyHand(player);
   }
 
-  const handlePossiblyEmptyHand = (player: Player) => {
+  private handlePossiblyEmptyHand = (player: Player) => {
     if (player.hand.length === 0) {
-      if (mortos.length > 0) {
-        player.hand = turnIntoPlayerCards(mortos.pop());
+      if (this.mortos.length > 0) {
+        player.hand = turnIntoPlayerCards(this.mortos.pop());
       } else {
-        gameOver = true;
+        this.gameOver = true;
       }
     }
   }
 
-  const discard = ({
+  public discard = ({
     player,
     card
   }: {
@@ -157,14 +142,14 @@ const game = ({
     const index = player.hand.findIndex(handCard => handCard.id === card.id);
     player.hand.splice(index, 1);
 
-    const wasMesaEmpty = mesa.length === 0;
+    const wasMesaEmpty = this.mesa.length === 0;
     const hasDiscardedTheSameDrawnCard = card.temp;
-    mesa.push(card);
+    this.mesa.push(card);
 
     makePlayerCardsDefinitive(player);
-    handlePossiblyEmptyHand(player);
+    this.handlePossiblyEmptyHand(player);
     if (!(wasMesaEmpty && hasDiscardedTheSameDrawnCard)) {
-      finishTurn();
+      this.finishTurn();
     }
   }
 }
