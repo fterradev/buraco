@@ -1,4 +1,5 @@
 import { Card, CardSet, getNewDeck } from "../deck";
+// @ts-ignore
 import shuffle from "fisher-yates";
 
 export interface PlayerCard extends Card {
@@ -7,16 +8,19 @@ export interface PlayerCard extends Card {
 
 export type PlayerCardSet = PlayerCard[];
 
-export interface Player {
-  id: number,
+export interface PlayerOptions {
   name: string,
-  hand: PlayerCardSet,
   team: Team,
-  hasGoneOut: boolean,
+}
+
+export type Player = PlayerOptions & {
+  id: number,
+  hand: PlayerCardSet,
+  hasGoneOut: boolean, // bateu
 }
 
 export interface Team {
-  players: [Player, Player];
+  players?: [Player, Player];
   sequences: CardSet[];
   hasPickedUpMorto: boolean;
 }
@@ -53,19 +57,54 @@ const prepareMortos = (deck: CardSet): [PlayerCardSet, PlayerCardSet] => {
   return [morto1, morto2];
 }
 
+export const createTeam = () => {
+  const team: Team = {
+    sequences: [],
+    hasPickedUpMorto: false,
+  }
+  return team;
+}
+
+let playerCount = 0;
+const getNewPlayerId = () => {
+  playerCount++;
+  return playerCount;
+}
+export const createPlayer = (options: PlayerOptions) => {
+  const player: Player = {
+    ...options,
+    id: getNewPlayerId(),
+    hand: [],
+    hasGoneOut: false,
+  };
+  return player;
+}
+
 export default class Game {
   teams: [Team, Team];
   playersOrder: [Player, Player, Player, Player];
-  whoseTurn: number = Math.floor(Math.random() * 4);
+  whoseTurn: number;
   deck: CardSet = shuffle(getNewDeck());
   mesa: CardSet = [];
   mortos: CardSet[];
   gameOver = false;
-  playerHasDrawn = false;
+  playerHasAlreadyDrawn = false;
   isLastTurn = false;
-  
-  constructor(teams: [Team, Team]) {
+  isFirstDiscarding = true;
+
+  constructor(teams: [Team, Team], startingPlayer?: number) {
     this.teams = teams;
+    if (teams.length !== 2) {
+      throw new Error(`teams length should be two, but instead is ${teams.length}`);
+    }
+    teams.forEach((team, index) => {
+      if (team.players?.length !== 2) {
+        throw new Error(`team at index ${index} has ${team.players?.length} players`);
+      }
+    });
+    if (teams[0].players?.length !== 2 || teams[1].players?.length !== 2) {
+      throw new Error(`some team has more or less than two players`);
+    }
     this.playersOrder = [
       teams[0].players[0],
       teams[1].players[0],
@@ -76,6 +115,7 @@ export default class Game {
       player.hand = prepareHand(this.deck);
     });
     this.mortos = prepareMortos(this.deck);
+    this.whoseTurn = startingPlayer || Math.floor(Math.random() * 4);
   }
 
   private finishTurn = () => {
@@ -84,28 +124,32 @@ export default class Game {
     }
     if (this.deck.length === 0) {
       if (this.mortos.length > 0) {
-        this.deck.concat(this.mortos.pop());
+        this.deck.concat(this.mortos.pop() as CardSet);
       }
     }
     if (!this.gameOver) {
       this.whoseTurn++;
-      this.playerHasDrawn = false;
+      this.playerHasAlreadyDrawn = false;
       if (this.whoseTurn === 4) {
         this.whoseTurn = 0;
       }
     }
   }
 
+  public getCurrentPlayer = () => {
+    return this.playersOrder[this.whoseTurn];
+  }
+
   public drawFromDeck = (player: Player) => {
-    const card = this.deck.pop();
-    player.hand.concat(turnIntoPlayerCards([card], { temp: true }));
-    this.playerHasDrawn = true;
+    const card = this.deck.pop() as Card;
+    player.hand = player.hand.concat(turnIntoPlayerCards([card], { temp: true }));
+    this.playerHasAlreadyDrawn = true;
   }
 
   public drawFromMesa = (player: Player) => {
     const cards = this.mesa.splice(0);
     player.hand.concat(turnIntoPlayerCards(cards, { temp: true }));
-    this.playerHasDrawn = true;
+    this.playerHasAlreadyDrawn = true;
     if (this.deck.length === 0) {
       this.isLastTurn = true;
     }
@@ -134,7 +178,7 @@ export default class Game {
       if (!player.team.hasPickedUpMorto && this.mortos.length > 0) {
         player.team.hasPickedUpMorto = true;
         if (!this.gameOver) {
-          player.hand = turnIntoPlayerCards(this.mortos.pop());
+          player.hand = turnIntoPlayerCards(this.mortos.pop() as CardSet);
         }
       } else {
         this.gameOver = true;
@@ -153,7 +197,6 @@ export default class Game {
     const index = player.hand.findIndex(handCard => handCard.id === card.id);
     player.hand.splice(index, 1);
 
-    const wasMesaEmpty = this.mesa.length === 0;
     const hasDiscardedTheSameDrawnCard = card.temp;
     this.mesa.push(card);
     makePlayerCardsDefinitive(player);
@@ -162,8 +205,9 @@ export default class Game {
     }
 
     this.handlePossiblyEmptyHand(player);
-    if (!(wasMesaEmpty && hasDiscardedTheSameDrawnCard)) {
+    if (!(this.isFirstDiscarding && hasDiscardedTheSameDrawnCard)) {
       this.finishTurn();
     }
+    this.isFirstDiscarding = false;
   }
 }
