@@ -1,13 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Grid, useTheme } from '@material-ui/core';
 import GamePlayerName from './GetPlayerName';
 import CreateOrJoinGame from './CreateOrJoinGame';
+import * as comms from './comms';
 
 export default function GeneralSetup() {
   const theme = useTheme();
+  useEffect(() => {
+    comms.connect();
+    console.log("conectando");
+    return () => comms.disconnect();
+  }, []);
   const [playerName, setPlayerName] = useState<string>();
   return (
     <Box bgcolor="primary.light">
@@ -24,7 +30,10 @@ export default function GeneralSetup() {
           </Grid>
           <Grid item>
             {!playerName && (
-              <GamePlayerName onSubmit={({ playerName }) => { setPlayerName(playerName) }} />
+              <GamePlayerName onSubmit={({ playerName }) => {
+                setPlayerName(playerName);
+                comms.setPlayerName(playerName);
+              }} />
             )}
             {playerName && (
               <CreateOrJoinGame onSubmit={({ playerName }) => { setPlayerName(playerName) }} />

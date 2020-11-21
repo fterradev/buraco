@@ -7,3 +7,4 @@ export interface Card {
 export declare type CardSet = Card[];
 declare const deck: CardSet;
 export default deck;
+export declare const getNewDeck: () => CardSet;
