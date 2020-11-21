@@ -10,19 +10,21 @@ const INDEX = '/index.html';
 const server = express_1.default()
     .use((req, res) => res.sendFile(INDEX, { root: "./src/html" }))
     .listen(PORT, () => console.log(`Listening on ${PORT}`));
-const io = socket_io_1.default(server, {
-    origins: '*:*'
-});
+const io = socket_io_1.default(server);
+const clients = {};
+const setClient = (id, properties) => {
+    clients[id] = Object.assign(Object.assign({}, clients[id]), properties);
+};
 io.on("connection", socket => {
     console.log('Client connected');
     socket.on('disconnect', () => console.log('Client disconnected'));
     socket.on('setname', (name) => {
         console.log(`His/her name is ${name}`);
+        setClient(socket.id, {
+            name
+        });
+        socket.broadcast.emit('join', clients[socket.id].name);
     });
     setTimeout(() => socket.emit('hey'), 3000);
-    // console.log(socket);
-    socket.on('pulse', (...args) => {
-        console.log(args);
-    });
 });
 //# sourceMappingURL=index.js.map
