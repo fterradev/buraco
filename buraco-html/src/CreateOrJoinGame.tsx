@@ -7,48 +7,48 @@ export default function CreateOrJoinGame({
 }: {
   onSubmit?: ({ playerName }: { playerName: string }) => void
 }) {
-  const [playerName, setPlayerName] = useState<string>();
-  const [playerNameHasError, setPlayerNameHasError] = useState(false);
+  const [code, setCode] = useState<string>();
+  const [codeHasError, setCodeHasError] = useState(false);
   return (
-    <form onSubmit={function (e) {
-      e.preventDefault();
-      if (playerName) {
-        onSubmit?.({ playerName })
-      }
-    }}
-    >
-      <Box p={1}>
-        <Grid
-          container
-          direction="column"
-          alignItems="stretch"
-          spacing={4}
-        >
-          <Grid item>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-            >
-              <Box bgcolor="primary.main">
-                <Button type="submit">Criar Partida</Button>
-              </Box>
-            </Grid>
+    <Box p={1}>
+      <Grid
+        container
+        direction="column"
+        alignItems="stretch"
+        spacing={4}
+      >
+        <Grid item>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+          >
+            <Box bgcolor="primary.main">
+              <Button type="submit">Criar Partida</Button>
+            </Box>
           </Grid>
-          <Grid item>
-            <Typography variant="h6" component="h1" align="center">
-              - ou -
+        </Grid>
+        <Grid item>
+          <Typography variant="h6" component="h1" align="center">
+            - ou -
             </Typography>
-          </Grid>
-          <Grid item>
+        </Grid>
+        <Grid item>
+          <form onSubmit={function (e) {
+            e.preventDefault();
+            if (code) {
+              onSubmit?.({ playerName: code })
+            }
+          }}
+          >
             <TextField
-              id="player-name"
+              id="match-code"
               required
               label="Código"
               fullWidth
-              error={playerNameHasError}
-              onChange={e => { setPlayerName(e.target.value); setPlayerNameHasError(false) }}
-              onInvalid={() => { setPlayerNameHasError(true) }}
+              error={codeHasError}
+              onChange={e => { setCode(e.target.value); setCodeHasError(false) }}
+              onInvalid={() => { setCodeHasError(true) }}
             />
             <Box p={1}>
               <Grid
@@ -61,9 +61,9 @@ export default function CreateOrJoinGame({
                 </Box>
               </Grid>
             </Box>
-          </Grid>
+          </form>
         </Grid>
-      </Box>
-    </form>
+      </Grid>
+    </Box>
   );
 }
