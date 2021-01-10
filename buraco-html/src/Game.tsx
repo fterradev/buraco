@@ -9,6 +9,9 @@ const Container = styled(Div)`
   flex-direction: column;
   height: 100vh;
   width: 100vw;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `;
 
 function Game() {

@@ -5,23 +5,39 @@ import Mesa from "./Mesa";
 import styled from "styled-components";
 import Hand from "./Hand";
 import { Player } from "buraco/dist/game";
+import SeatSelectorUpDown from "./SeatSelectorUpDown";
+
+const startingKeyframe = `{
+  transform: rotate(180deg);
+  flex: 0;
+  height: 100vmin;
+  width: 100vmin;
+}`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   /* justify-content: space-between; */
+  height: 100vh;
+  width: 100vw;
+  animation: rotate 5s;
+
+  @keyframes rotate {
+    0% ${startingKeyframe}
+    25% ${startingKeyframe}
+  }
 `;
 function MainView() {
   const cards = deck.slice(0, 12);
-  const handCards = deck.slice(13, 13+11);
-  const otherCards = deck.slice(26, 26+11);
-  const otherCards2 = deck.slice(39, 39+11);
-  const otherCards3 = deck.slice(52, 52+11);
+  const handCards = deck.slice(13, 13 + 11);
+  const otherCards = deck.slice(26, 26 + 11);
+  const otherCards2 = deck.slice(39, 39 + 11);
+  const otherCards3 = deck.slice(52, 52 + 11);
   const otherPlayer: Player = {
     hand: otherCards as any,
     id: 0,
-    name: "José"
+    name: "Rafael"
   } as any;
   const otherPlayer2: Player = {
     hand: otherCards2 as any,
@@ -31,7 +47,7 @@ function MainView() {
   const otherPlayer3: Player = {
     hand: otherCards3 as any,
     id: 2,
-    name: "André"
+    name: "Rafael"
   } as any;
   // console.log({JSON.stringify(options.cards)});
   return <Container>
@@ -41,13 +57,15 @@ function MainView() {
     <OtherPlayer /> */}
     <Mesa
       deckLength={80}
-      cards={cards}
+      cards={[]}
       mortosLength={2}
       players={[otherPlayer, otherPlayer2, otherPlayer3]}
     />
-    <Hand
-      cards={handCards}
-    />
+    <SeatSelectorUpDown>
+      <Hand
+        cards={[]}
+      />
+    </SeatSelectorUpDown>
   </Container>;
 }
 

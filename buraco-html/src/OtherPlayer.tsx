@@ -14,9 +14,10 @@ const Container = styled.div<Props>`
   /* flex: 1; */
   flex-basis: 0;
   /* flex-direction: row; */
-  flex-direction: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "column" : "row"};
+  flex-direction: ${({ position }) => ["column-reverse", "row", "column"][["left", "top", "right"].indexOf(position)]};
   /* transform: rotate(${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "-90deg" : "0"}); */
   justify-content: center;
+  align-items: flex-end;
   /* background-color: ${({ bgColor }) => bgColor}; */
 `;
 
@@ -32,8 +33,9 @@ const Title = styled.span<Props>`
   position: absolute;
   background-color: #f5f5dc80;
   font-weight: bold;
-  align-self: ${({ position }) => (position === "left") ? "end" : "flex-end"};
+  align-self: ${({ position }) => (position === "left") ? "flex-start" : "flex-end"};
   transform: rotate(${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]});
+  margin-bottom: ${({ position }) => (position === "top") ? "3px" : "0"}; // empirical adjustment 
   /* justify-self: center; */
 `;
 

@@ -5,8 +5,6 @@ import Card from "./Card";
 import { Player } from "buraco/dist/game";
 import OtherPlayer from "./OtherPlayer";
 import Sortable from "./Sortable";
-import SeatSelectorUpDown from "./SeatSelectorUpDown";
-import SeatSelectorSides from "./SeatSelectorSides";
 
 const rowGap = "5px";
 
@@ -55,15 +53,11 @@ function Mesa(options: {
   const [orderedCards, setOrderedCards] = useState(options.cards);
   return (
     <Container>
-      <SeatSelectorUpDown>
-        <OtherPlayer player={options.players[0]} />
-      </SeatSelectorUpDown>
+      <OtherPlayer player={options.players[0]} />
       <MesaWithSidePlayers>
         {/* <C1>oi</C1> */}
         {/* <C1> */}
-        <SeatSelectorSides>
-          <OtherPlayer player={options.players[1]} position="left" color="blue" />
-        </SeatSelectorSides>
+        <OtherPlayer player={options.players[1]} position="left" color="blue" />
         {/* </C1> */}
         <MesaItself>
           <Sortable
@@ -89,13 +83,11 @@ function Mesa(options: {
             })}
           </Sortable>
         </MesaItself>
-        <SeatSelectorSides>
-          <OtherPlayer
-            player={options.players[2]}
-            position="right"
-            color="blue"
-          />
-        </SeatSelectorSides>
+        <OtherPlayer
+          player={options.players[2]}
+          position="right"
+          color="blue"
+        />
         {/* <C1>oi</C1>
       <C2>xau</C2> */}
       </MesaWithSidePlayers>
