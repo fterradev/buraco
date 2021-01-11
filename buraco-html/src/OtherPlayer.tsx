@@ -32,8 +32,14 @@ const Title = styled.span<Props>`
   position: absolute;
   background-color: #f5f5dc80;
   font-weight: bold;
-  align-self: ${({ position }) => (position === "left") ? "end" : "flex-end"};
-  transform: rotate(${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]});
+  align-self: ${({ position }) => ["flex-end", "flex-end", "flex-start"][["left", "top", "right"].indexOf(position)]};
+  transform: rotate(
+    ${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]}
+  ) translatex(calc(
+    ${({ position }) => ["1", "0", "-1"][["left", "top", "right"].indexOf(position)]}*(50% + 0.5em)
+  ));
+  transform-origin: bottom ${({ position }) => ["right", "", "left"][["left", "top", "right"].indexOf(position)]};
+  white-space: nowrap;
   /* justify-self: center; */
 `;
 
