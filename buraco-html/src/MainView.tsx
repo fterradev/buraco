@@ -21,17 +21,17 @@ function MainView() {
   const otherPlayer: Player = {
     hand: otherCards as any,
     id: 0,
-    name: "José"
+    name: "Josué da Silva Medeiros"
   } as any;
   const otherPlayer2: Player = {
     hand: otherCards2 as any,
     id: 1,
-    name: "Rafael"
+    name: "Grande Mais Maior"
   } as any;
   const otherPlayer3: Player = {
     hand: otherCards3 as any,
     id: 2,
-    name: "André"
+    name: "Maioral Ainda Mais"
   } as any;
   // console.log({JSON.stringify(options.cards)});
   return <Container>

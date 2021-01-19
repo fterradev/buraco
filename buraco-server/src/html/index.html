@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="../../../buraco-html/node_modules/socket.io-client/dist/socket.io.js"></script> -->
+    <script>
+      let socket = io("ws://localhost:4000");
+      // let socket = require("../../../buraco-html/node_modules/socket.io-client").io();
+      let el;
+
+      socket.on('time', (timeString, perUserCounter) => {
+        el = document.getElementById('server-time');
+        el.innerHTML = 'Server time: ' + timeString + JSON.stringify(perUserCounter);
+      });
+      socket.on('hey', (x) => console.log('got a `hey`', x))
+
+      window.onload = () => {
+        const el = document.getElementById('send-pulse');
+        console.log(el);
+        el.addEventListener("click", () => {
+          console.log(socket);
+          console.log("pulse");
+          // console.log(socket);
+          // console.log(socket.emit);
+          socket.emit("pulse", new Date().toTimeString());
+          socket.emit("setname", "Fernando");
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <p id="server-time"></p>
+    <button id="send-pulse">Send pulse</button>
+  </body>
+</html>
