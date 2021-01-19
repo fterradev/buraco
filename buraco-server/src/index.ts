@@ -1,5 +1,6 @@
 export * as deck from "./deck";
 export * as game from "./game";
+import "./control";
 
 // import express from "express";
 // import socketIO from "socket.io";
