@@ -3,9 +3,11 @@ import TextField from '@material-ui/core/TextField';
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 
 export default function CreateOrJoinGame({
-  onSubmit
+  onSubmit,
+  onCreateMatch
 }: {
-  onSubmit?: ({ playerName }: { playerName: string }) => void
+  onSubmit?: ({ playerName }: { playerName: string }) => void,
+  onCreateMatch?: () => void,
 }) {
   const [code, setCode] = useState<string>();
   const [codeHasError, setCodeHasError] = useState(false);
@@ -24,7 +26,7 @@ export default function CreateOrJoinGame({
             justify="center"
           >
             <Box bgcolor="primary.main">
-              <Button type="submit">Criar Partida</Button>
+              <Button onClick={onCreateMatch}>Criar Partida</Button>
             </Box>
           </Grid>
         </Grid>

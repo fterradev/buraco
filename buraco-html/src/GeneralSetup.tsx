@@ -36,7 +36,9 @@ export default function GeneralSetup() {
               }} />
             )}
             {playerName && (
-              <CreateOrJoinGame onSubmit={({ playerName }) => { setPlayerName(playerName) }} />
+              <CreateOrJoinGame onCreateMatch={() => {
+                comms.createMatch();
+              }} />
             )}
           </Grid>
         </Grid>

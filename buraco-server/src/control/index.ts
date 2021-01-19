@@ -1,5 +1,6 @@
 import express from "express";
 import socketIO from "socket.io";
+import randomstring from "randomstring";
 
 const PORT = process.env.PORT || 4000;
 const INDEX = '/index.html';
@@ -28,6 +29,16 @@ io.on("connection", socket => {
       name
     });
     socket.broadcast.emit('join', name);
+  });
+  socket.on('create-match', (data, cb) => {
+    const matchCode = randomstring.generate({
+      length: 8,
+      capitalization: 'lowercase',
+    });
+
+    console.log({ matchCode });
+    cb({ matchCode });
+    
   });
   setTimeout(() => socket.emit('hey'), 3000);
 });

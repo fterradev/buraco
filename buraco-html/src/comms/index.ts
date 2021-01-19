@@ -25,3 +25,9 @@ export const disconnect = () => {
 export const setPlayerName = (name: string) => {
   socket.emit("setname", name);
 }
+
+export const createMatch = () => {
+  socket.emit("create-match", undefined, ({ matchCode }: any) => {
+    console.log({ matchCode });
+  });
+}

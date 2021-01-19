@@ -15,9 +15,11 @@
     "buraco": "file:../buraco-server",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-sortablejs": "^2.0.11",
+    "react-sortablejs": "^6.0.0",
     "socket.io-client": "^2.3.0",
+    "sortablejs": "^1.13.0",
     "styled-components": "^5.1.0",
     "typescript": "~3.7.2"
   },
@@ -44,6 +46,8 @@
   },
   "devDependencies": {
     "@types/react-beautiful-dnd": "^13.0.0",
+    "@types/socket.io-client": "^1.4.35",
+    "@types/sortablejs": "^1.10.6",
     "@types/styled-components": "^5.0.1"
   }
 }
