@@ -6,7 +6,19 @@ import styled from "styled-components";
 import Hand from "./Hand";
 import { Player } from "buraco/dist/game";
 
+const borderWidth = "1px";
+const externalBorder = "5px";
+const marginCards = "5px";
+
 const Container = styled.div`
+  --card-height: 3.75rem;
+  --card-width: 3rem;
+  @media (max-width: 10cm) {
+    --card-width: calc((100vw - 2*${externalBorder})/11 - (${marginCards} + 2*${borderWidth}));
+  }
+  --card-height-with-border: calc(var(--card-height) + 2*1px);
+  --negative-margin: calc(var(--card-height) * 0.4);
+  --reduced-player-height: calc(var(--card-height-with-border) - var(--negative-margin));
   display: flex;
   flex-direction: column;
   flex: 1;

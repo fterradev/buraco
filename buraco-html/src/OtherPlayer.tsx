@@ -18,6 +18,11 @@ const Container = styled.div<Props>`
   /* transform: rotate(${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "-90deg" : "0"}); */
   justify-content: center;
   /* background-color: ${({ bgColor }) => bgColor}; */
+  height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--reduced-player-height)"};
+  bottom: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--negative-margin)"};
+  width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "var(--reduced-player-height)" : "initial"};
+  right: ${({ position }) => position === "left" ? "var(--negative-margin)" : "initial"};
+  // left: ${({ position }) => position === "right" ? "var(--negative-margin)" : "initial"};
 `;
 
 const CardsContainer = styled.div<Props>`
@@ -25,7 +30,7 @@ const CardsContainer = styled.div<Props>`
   justify-content: center;
   flex-direction: ${({ position }) => ["column-reverse", "row", "column"][["left", "top", "right"].indexOf(position)]};
   /* padding: 5px; */
-  /* margin-${({ position }) => position}: -1.5em; */
+  /* margin-${({ position }) => position}: -1.5rem; */
 `;
 
 const Title = styled.span<Props>`
@@ -37,7 +42,7 @@ const Title = styled.span<Props>`
     ${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]}
   ) translatex(calc(
     ${({ position }) => ["1", "0", "-1"][["left", "top", "right"].indexOf(position)]}*(50% + 0.5em)
-  ));
+  )) ${({ position }) => position === "left" ? "translatey(var(--negative-margin))" : ""};
   transform-origin: bottom ${({ position }) => ["right", "", "left"][["left", "top", "right"].indexOf(position)]};
   white-space: nowrap;
   /* justify-self: center; */
@@ -45,16 +50,18 @@ const Title = styled.span<Props>`
 
 function OtherPlayer({ player, position = "top", color = "red" }: { player: Player, position?: string, color?: string }) {
   return <Container position={position} bgColor={color}>
-    <CardsContainer position={position}>
-      {player.hand.map(card => {
-        return <OtherPlayerCard
-          key={card.id}
-          card={card}
-          position={position}
-        />
-      })}
-    </CardsContainer>
-    <Title position={position}>{player.name}</Title>
+    <div>
+      <CardsContainer position={position}>
+        {player.hand.map(card => {
+          return <OtherPlayerCard
+            key={card.id}
+            card={card}
+            position={position}
+          />
+        })}
+        <Title position={position}>{player.name}</Title>
+      </CardsContainer>
+    </div>
   </Container>;
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import GeneralSetup from './GeneralSetup';
+import Game from './Game';
 
 const theme = createMuiTheme({
   palette: {
@@ -37,7 +38,7 @@ const theme = createMuiTheme({
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <GeneralSetup />
+      <Game />
     </ThemeProvider>
   );
 }
