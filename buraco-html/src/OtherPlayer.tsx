@@ -18,10 +18,13 @@ const Container = styled.div<Props>`
   /* transform: rotate(${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "-90deg" : "0"}); */
   justify-content: center;
   /* background-color: ${({ bgColor }) => bgColor}; */
-  height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--reduced-player-height)"};
-  bottom: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--negative-margin)"};
-  width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "var(--reduced-player-height)" : "initial"};
-  right: ${({ position }) => position === "left" ? "var(--negative-margin)" : "initial"};
+  margin-top: ${({ position }) => position === "top" ? "calc(-1 * var(--negative-margin))" : "initial"};
+  margin-left: ${({ position }) => position === "left" ? "calc(-1 * var(--negative-margin))" : "initial"};
+  margin-right: ${({ position }) => position === "right" ? "calc(-1 * var(--negative-margin))" : "initial"};
+  // height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--reduced-player-height)"};
+  // bottom: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "initial" : "var(--negative-margin)"};
+  // width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "var(--reduced-player-height)" : "initial"};
+  // right: ${({ position }) => position === "left" ? "var(--negative-margin)" : "initial"};
   // left: ${({ position }) => position === "right" ? "var(--negative-margin)" : "initial"};
 `;
 
@@ -42,7 +45,7 @@ const Title = styled.span<Props>`
     ${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]}
   ) translatex(calc(
     ${({ position }) => ["1", "0", "-1"][["left", "top", "right"].indexOf(position)]}*(50% + 0.5em)
-  )) ${({ position }) => position === "left" ? "translatey(var(--negative-margin))" : ""};
+  ))};
   transform-origin: bottom ${({ position }) => ["right", "", "left"][["left", "top", "right"].indexOf(position)]};
   white-space: nowrap;
   /* justify-self: center; */
