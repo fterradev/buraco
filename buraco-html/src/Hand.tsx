@@ -5,7 +5,7 @@ import Card from "./Card";
 import Sortable from "./Sortable";
 
 const rowGap = "5px";
-const marginCards = "5px";
+const marginCards = "3px";
 
 interface ContainerProps {
   readonly externalBorder?: string;

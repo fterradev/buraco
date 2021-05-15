@@ -8,10 +8,10 @@ import { Player } from "buraco/dist/game";
 
 const borderWidth = "1px";
 const externalBorder = "5px";
-const marginCards = "5px";
+const marginCards = "3px";
 
 const Container = styled.div`
-  --card-height: 3.75rem;
+  --card-height: 3.6rem;
   --card-width: 3rem;
   @media (max-width: 10cm) {
     --card-width: calc((100vw - 2*${externalBorder})/11 - (${marginCards} + 2*${borderWidth}));
