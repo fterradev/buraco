@@ -45,7 +45,7 @@ const Title = styled.span<Props>`
     ${({ position }) => ["-90deg", "0", "90deg"][["left", "top", "right"].indexOf(position)]}
   ) translatex(calc(
     ${({ position }) => ["1", "0", "-1"][["left", "top", "right"].indexOf(position)]}*(50% + 0.5em)
-  ))};
+  ));
   transform-origin: bottom ${({ position }) => ["right", "", "left"][["left", "top", "right"].indexOf(position)]};
   white-space: nowrap;
   /* justify-self: center; */
