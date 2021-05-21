@@ -6,9 +6,9 @@ interface Props {
   readonly position: string;
 };
 const borderWidth = "1px";
-const width = "1em";
-const height = "1.5em";
-const marginCard = `calc(-0.75 * ${width})`;
+const width = "2em";
+const height = "2.5em";
+const marginCard = `calc(-0.75 * var(--card-width))`;
 // const widthSmall = `calc(100%/11 - (${marginRight} + 2*${borderWidth}))`;
 // const marginCardSmall = `calc(-0.75 * (100%/11 - (${marginRight} + 2*${borderWidth})))`;
 const Container = styled.div<Props>`
@@ -18,19 +18,19 @@ const Container = styled.div<Props>`
   flex-direction: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "row" : "column"};
   /* transform: rotate(${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "-90deg" : "0"}); */
   font-family: card-characters;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   align-items: center;
   border-width: ${borderWidth};
   border-style: solid;
   border-color: black;
   border-radius: 2px;
   /* width: ${width}; */
-  width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? height : width};
+  width: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "var(--card-height)" : "var(--card-width)"};
   /* margin-right: calc(-0.75 * ${width}); */
   margin-right: ${({ position }) => position === "top" ? marginCard : "initial"};
   margin-top: ${({ position }) => position === "left" ? marginCard : "initial"};
   margin-bottom: ${({ position }) => position === "right" ? marginCard : "initial"};
-  height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? width : height};
+  height: ${({ position }) => ["left", "right"].indexOf(position) !== -1 ? "var(--card-width)" : "var(--card-height)"};
   /* width: 3cm; */
   /* max-width: 7vw; */
 

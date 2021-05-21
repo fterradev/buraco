@@ -8,6 +8,8 @@ import Sortable from "./Sortable";
 
 const rowGap = "5px";
 
+const defaultMarginCards = "3px";
+
 const Container = styled.div`
   background-color: #45a173;
   display: flex;
@@ -41,7 +43,7 @@ const DiscardedCards = styled.div<DiscardedCardsProps>`
   /* flex: 1; */
   /* flex-grow: 1; */
   flex-wrap: wrap;
-  margin-left: ${({ marginCards = "5px" }) => `-${marginCards}`};
+  margin-left: ${({ marginCards = defaultMarginCards }) => `-${marginCards}`};
 `;
 function Mesa(options: {
   deckLength: number;
@@ -49,7 +51,7 @@ function Mesa(options: {
   mortosLength: number;
   players: Player[];
 }) {
-  const marginCards = "5px";
+  const marginCards = defaultMarginCards;
   const [orderedCards, setOrderedCards] = useState(options.cards);
   return (
     <Container>

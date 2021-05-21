@@ -13,7 +13,7 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   font-family: card-characters;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   color: ${(props) => props.color || "black"};
   align-items: center;
   border-width: ${borderWidth};
@@ -22,12 +22,8 @@ const Container = styled.div<ContainerProps>`
   border-radius: 3px;
   margin-left: ${({ marginCards }) => marginCards};
   margin-bottom: ${({ rowGap = "" }) => rowGap};
-  width: 2em;
-  height: fit-content;
-  @media (max-width: 10cm) {
-    width: ${({ externalBorder = "5px", marginCards }) =>
-      `calc((100vw - 2*${externalBorder}})/11 - (${marginCards} + 2*${borderWidth}))`};
-  }
+  width: var(--card-width);
+  height: var(--card-height);
   /* width: 3cm; */
   /* max-width: 7vw; */
 
