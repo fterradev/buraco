@@ -2,7 +2,7 @@ import React from "react";
 import deck, { CardSet } from "buraco/dist/deck";
 import Player from "../interfaces/Player";
 
-interface IMove {
+export interface IMove {
   destination: string,
   remove: () => void,
   insert: () => void,
@@ -12,7 +12,7 @@ interface OtherPlayer extends Player {
   moves: Record<number, IMove>
 }
 
-interface IGameProperties {
+export interface IGameProperties {
   otherTeam: [OtherPlayer, OtherPlayer],
   partner: OtherPlayer,
   player: Player,
@@ -25,7 +25,7 @@ const otherCards1 = deck.slice(26, 26 + 11);
 const otherCards2 = deck.slice(39, 39 + 11);
 const otherCards3 = deck.slice(52, 52 + 11);
 
-export const gameProperties: IGameProperties = {
+export const defaultGameProperties: IGameProperties = {
   otherTeam: [{
     id: 0,
     name: "Fulano",
@@ -51,6 +51,6 @@ export const gameProperties: IGameProperties = {
   mesaCards
 };
 
-const GameContext = React.createContext(gameProperties);
+const GameContext = React.createContext(defaultGameProperties);
 
 export default GameContext;
