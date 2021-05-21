@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import MainView from "./MainView";
 import Div from "./Div";
+import GameContext, { gameProperties } from "./context";
 
 const Container = styled(Div)`
   display: flex;
@@ -13,9 +14,12 @@ const Container = styled(Div)`
 `;
 
 function Game() {
+  const game = useState(gameProperties);
   return (
     <Container>
-      <MainView />
+      <GameContext.Provider value={gameProperties}>
+        <MainView />
+      </GameContext.Provider>
     </Container>
   );
 }

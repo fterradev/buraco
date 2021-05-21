@@ -10,15 +10,13 @@ let player22: Player;
 let game: Game;
 let testStartingPlayer: Player;
 const prepareGame = (() => {
-  team1 = createTeam();
-  player11 = createPlayer({ name: "John", team: team1 });
-  player12 = createPlayer({ name: "Paul", team: team1 });
-  team1.players = [player11, player12];
+  team1 = createTeam([createPlayer({ name: "John" }), createPlayer({ name: "Paul" })]);
+  player11 = team1.players[0];
+  player12 = team1.players[1];
 
-  team2 = createTeam();
-  player21 = createPlayer({ name: "George", team: team2 });
-  player22 = createPlayer({ name: "Ringo", team: team2 });
-  team2.players = [player21, player22];
+  team2 = createTeam([createPlayer({ name: "George" }), createPlayer({ name: "Ringo" })]);
+  player21 = team2.players[0];
+  player22 = team2.players[1];
 
   game = new Game([team1, team2]);
   testStartingPlayer = game.playersOrder[game.whoseTurn];

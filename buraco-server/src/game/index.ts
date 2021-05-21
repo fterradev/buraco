@@ -3,24 +3,24 @@ import { Card, CardSet, getNewDeck } from "../deck";
 import shuffle from "fisher-yates";
 
 export interface PlayerCard extends Card {
-  temp: boolean
+  temp?: boolean
 }
 
 export type PlayerCardSet = PlayerCard[];
 
 export interface PlayerOptions {
   name: string,
-  team: Team,
 }
 
 export type Player = PlayerOptions & {
   id: number,
   hand: PlayerCardSet,
   hasGoneOut: boolean, // bateu
+  team: Team,
 }
 
 export interface Team {
-  players?: [Player, Player];
+  players: [Player, Player];
   sequences: CardSet[];
   hasPickedUpMorto: boolean;
 }
@@ -57,11 +57,15 @@ const prepareMortos = (deck: CardSet): [PlayerCardSet, PlayerCardSet] => {
   return [morto1, morto2];
 }
 
-export const createTeam = () => {
+export const createTeam = (players: [Omit<Player, "team">, Omit<Player, "team">]) => {
   const team: Team = {
+    players: players as any,
     sequences: [],
     hasPickedUpMorto: false,
-  }
+  };
+  team.players.forEach(player => {
+    player.team = team;
+  });
   return team;
 }
 
@@ -71,7 +75,7 @@ const getNewPlayerId = () => {
   return playerCount;
 }
 export const createPlayer = (options: PlayerOptions) => {
-  const player: Player = {
+  const player: Omit<Player, "team"> = {
     ...options,
     id: getNewPlayerId(),
     hand: [],
@@ -103,7 +107,7 @@ export default class Game {
       }
     });
     if (teams[0].players?.length !== 2 || teams[1].players?.length !== 2) {
-      throw new Error(`some team has more or less than two players`);
+      throw new Error(`some team has an unallowed number of players`);
     }
     this.playersOrder = [
       teams[0].players[0],
@@ -181,6 +185,7 @@ export default class Game {
           player.hand = turnIntoPlayerCards(this.mortos.pop() as CardSet);
         }
       } else {
+        // TODO: verify team has a clean sequence
         this.gameOver = true;
         player.hasGoneOut = true;
       }

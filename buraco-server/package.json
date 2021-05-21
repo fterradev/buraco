@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "compile": "tsc",
+    "start": "npm run compile && node dist/index.js",
     "test": "jest"
   },
   "author": "Fernando Terra",
