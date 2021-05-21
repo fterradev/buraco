@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Player } from "buraco/dist/game";
+import Player from "./interfaces/Player";
 import OtherPlayerCard from "./OtherPlayerCard";
 
 interface Props {

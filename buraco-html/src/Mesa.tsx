@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { CardSet } from "buraco/dist/deck";
 import styled from "styled-components";
 import Card from "./Card";
-import { Player } from "buraco/dist/game";
 import OtherPlayer from "./OtherPlayer";
 import Sortable from "./Sortable";
+import Player from "./interfaces/Player";
 
 const rowGap = "5px";
 

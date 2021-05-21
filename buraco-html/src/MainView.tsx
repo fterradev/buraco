@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import OtherPlayer from "./OtherPlayer";
 import deck from "buraco/dist/deck";
 import Mesa from "./Mesa";
 import styled from "styled-components";
 import Hand from "./Hand";
-import { Player } from "buraco/dist/game";
+import Player from "./interfaces/Player";
+import GameContext from "./context";
 
 const borderWidth = "1px";
 const externalBorder = "5px";
@@ -25,26 +26,17 @@ const Container = styled.div`
   /* justify-content: space-between; */
 `;
 function MainView() {
-  const cards = deck.slice(0, 12);
-  const handCards = deck.slice(13, 13+11);
-  const otherCards = deck.slice(26, 26+11);
-  const otherCards2 = deck.slice(39, 39+11);
-  const otherCards3 = deck.slice(52, 52+11);
-  const otherPlayer: Player = {
-    hand: otherCards as any,
-    id: 0,
-    name: "Josué da Silva Medeiros"
-  } as any;
-  const otherPlayer2: Player = {
-    hand: otherCards2 as any,
-    id: 1,
-    name: "Grande Mais Maior"
-  } as any;
-  const otherPlayer3: Player = {
-    hand: otherCards3 as any,
-    id: 2,
-    name: "Maioral Ainda Mais"
-  } as any;
+  const {
+    otherTeam: {
+      "0": otherPlayer1,
+      "1": otherPlayer2,
+    },
+    partner,
+    player: {
+      hand: playerHand
+    },
+    mesaCards
+  } = useContext(GameContext);
   // console.log({JSON.stringify(options.cards)});
   return <Container>
     {/* <OtherPlayer player={otherPlayer} /> */}
@@ -53,12 +45,12 @@ function MainView() {
     <OtherPlayer /> */}
     <Mesa
       deckLength={80}
-      cards={cards}
+      cards={mesaCards}
       mortosLength={2}
-      players={[otherPlayer, otherPlayer2, otherPlayer3]}
+      players={[otherPlayer1, partner, otherPlayer2]}
     />
     <Hand
-      cards={handCards}
+      cards={playerHand}
     />
   </Container>;
 }
