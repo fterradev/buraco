@@ -28,8 +28,8 @@ const Container = styled.div`
 function MainView() {
   const {
     otherTeam: {
-      "0": otherPlayer1,
-      "1": otherPlayer2,
+      "0": opponent1,
+      "1": opponent2,
     },
     partner,
     player: {
@@ -47,7 +47,8 @@ function MainView() {
       deckLength={80}
       cards={mesaCards}
       mortosLength={2}
-      players={[otherPlayer1, partner, otherPlayer2]}
+      opponents={[opponent1, opponent2]}
+      partner={partner}
     />
     <Hand
       cards={playerHand}

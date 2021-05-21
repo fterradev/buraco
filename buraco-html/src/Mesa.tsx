@@ -49,17 +49,18 @@ function Mesa(options: {
   deckLength: number;
   cards: CardSet;
   mortosLength: number;
-  players: Player[];
+  opponents: [Player, Player];
+  partner: Player;
 }) {
   const marginCards = defaultMarginCards;
   const [orderedCards, setOrderedCards] = useState(options.cards);
   return (
     <Container>
-      <OtherPlayer player={options.players[0]} />
+      <OtherPlayer player={options.partner} />
       <MesaWithSidePlayers>
         {/* <C1>oi</C1> */}
         {/* <C1> */}
-        <OtherPlayer player={options.players[1]} position="left" color="blue" />
+        <OtherPlayer player={options.opponents[0]} position="left" color="blue" />
         {/* </C1> */}
         <MesaItself>
           <Sortable
@@ -86,7 +87,7 @@ function Mesa(options: {
           </Sortable>
         </MesaItself>
         <OtherPlayer
-          player={options.players[2]}
+          player={options.opponents[1]}
           position="right"
           color="blue"
         />
