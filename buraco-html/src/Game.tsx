@@ -41,7 +41,8 @@ function Game() {
 
       // const move = initialGame.otherTeam[opponentIndex].moves[cardIndex];
       const moveIndex = card.id;
-      newGame.mesaCards.push(enteringCard);
+      // newGame.mesaCards.push(enteringCard);
+      newGame.mesaCards = [...newGame.mesaCards, enteringCard];
       newGame.moves[moveIndex] = {
         input: {
           source: opponentIndex,
