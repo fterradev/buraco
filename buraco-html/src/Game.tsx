@@ -17,7 +17,18 @@ const Container = styled(Div)`
 
 function Game() {
   console.log("render game");
-  const [game, setGame] = useState<IGameProperties>({ ...defaultGameProperties });
+  const [game, setGame] = useState<IGameProperties>(() => {
+    const newGame = { ...defaultGameProperties };
+    newGame.setMesaCards = (mesaCards) => {
+      setGame((oldGame) => {
+        console.log("setMesaCards");
+        const newGame = clone(oldGame);
+        newGame.mesaCards = mesaCards;
+        return newGame;
+      })
+    }
+    return newGame;
+  });
   const f = () => {
     setGame(oldGame => {
       const newGame = clone(oldGame)
@@ -36,6 +47,7 @@ function Game() {
           source: opponentIndex,
           destination: "mesa",
         },
+        // TODO: Set Position outside of the move: setPosition(cardId, position)
         setPosition: (position) => {
           setGame((oldGame) => {
             console.log("setPosition");

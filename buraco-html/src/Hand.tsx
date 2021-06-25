@@ -22,7 +22,7 @@ const Container = styled.div<ContainerProps>`
   margin-left: ${`-${marginCardsPixel}px`};
 `;
 function Hand(options: { cards: CardSet }) {
-  // TODO: useEffect to updateState from props
+  // TODO: useEffect to updateState from props, or update state in the context - see mesaCards.
   const [orderedCards, setOrderedCards] = useState(options.cards);
   return (
     <Sortable

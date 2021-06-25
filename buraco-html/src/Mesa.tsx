@@ -53,17 +53,17 @@ interface MesaComponentProps extends MesaProps {
 
 export function MesaComponent(options: MesaComponentProps) {
   const marginCardsPixel = defaultMarginCardsPixel;
-  console.log({length: options.cards.length});
-  if (options.cards.some(card => card.id === 26)) {
+  console.log({length: options.mesaCards.length});
+  if (options.mesaCards.some(card => card.id === 26)) {
     console.log("chegou na mesa");
   }
-  const [orderedCards, setOrderedCards] = useState(options.cards);
-  useEffect(() => {
-    setOrderedCards(options.cards);
-  }, [options.cards]);
-  if (orderedCards.some(card => card.id === 26)) {
-    console.log("chegou na orderedCards");
-  }
+  // const [orderedCards, setOrderedCards] = useState(options.mesaCards);
+  // useEffect(() => {
+  //   setOrderedCards(options.mesaCards);
+  // }, [options.mesaCards]);
+  // if (orderedCards.some(card => card.id === 26)) {
+  //   console.log("chegou na orderedCards");
+  // }
   const { moves } = options;
   return (
     <Container>
@@ -76,14 +76,14 @@ export function MesaComponent(options: MesaComponentProps) {
         <MesaItself>
           <Sortable
             tag={DiscardedCards}
-            list={orderedCards}
-            setList={setOrderedCards}
+            list={options.mesaCards}
+            setList={options.setMesaCards}
             group={{
               name: "mesa",
               put: true
             }}
           >
-            {orderedCards.map((card, index) => {
+            {options.mesaCards.map((card, index) => {
               return (
                 <Card
                   key={card.id}
@@ -113,7 +113,8 @@ export function MesaComponent(options: MesaComponentProps) {
 
 interface MesaProps {
   deckLength: number;
-  cards: CardSet;
+  mesaCards: CardSet;
+  setMesaCards: (mesaCards: CardSet) => void;
   mortosLength: number;
   opponents: [Player, Player];
   partner: Player;
@@ -123,7 +124,7 @@ function Mesa(options: MesaProps) {
   const {
     moves
   } = useContext(GameContext);
-  console.log({length: options.cards.length});
+  console.log({length: options.mesaCards.length});
   return <MesaComponent {...options} moves={moves} />
 }
 

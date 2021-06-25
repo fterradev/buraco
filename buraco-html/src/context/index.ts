@@ -27,6 +27,7 @@ export interface IGameProperties {
   partner: OtherPlayer,
   player: Player,
   mesaCards: CardSet,
+  setMesaCards: (mesaCards: CardSet) => void,
   moves: Record<number, IMove>,
 }
 
@@ -57,7 +58,10 @@ export const defaultGameProperties: IGameProperties = {
     hand: handCards as any
   },
   mesaCards,
-  moves: {}
+  moves: {},
+  setMesaCards: () => {
+    
+  }
 };
 
 const GameContext = React.createContext(defaultGameProperties);

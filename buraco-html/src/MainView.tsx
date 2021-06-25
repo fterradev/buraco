@@ -35,7 +35,8 @@ function MainView() {
     player: {
       hand: playerHand
     },
-    mesaCards
+    mesaCards,
+    setMesaCards
   } = useContext(GameContext);
   console.log({length: mesaCards.length});
   return <Container>
@@ -45,7 +46,8 @@ function MainView() {
     <OtherPlayer /> */}
     <Mesa
       deckLength={80}
-      cards={mesaCards}
+      mesaCards={mesaCards}
+      setMesaCards={setMesaCards}
       mortosLength={2}
       opponents={[opponent1, opponent2]}
       partner={partner}
