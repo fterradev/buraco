@@ -19,6 +19,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-sortablejs": "^6.0.0",
+    "react-transition-group": "^4.4.1",
     "socket.io-client": "^2.3.0",
     "sortablejs": "^1.13.0",
     "styled-components": "^5.1.0",
@@ -46,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.170",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/socket.io-client": "^1.4.35",
     "@types/sortablejs": "^1.10.6",

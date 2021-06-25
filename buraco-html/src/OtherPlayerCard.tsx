@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
+import GameContext, { IMove, IPosition } from "./context";
+import { Transition } from "react-transition-group";
 
 interface Props {
   readonly position: string;
+  readonly invisible: boolean;
 };
 const borderWidth = "1px";
 const width = "2em";
@@ -12,6 +15,7 @@ const marginCard = `calc(-0.75 * var(--card-width))`;
 // const widthSmall = `calc(100%/11 - (${marginRight} + 2*${borderWidth}))`;
 // const marginCardSmall = `calc(-0.75 * (100%/11 - (${marginRight} + 2*${borderWidth})))`;
 const Container = styled.div<Props>`
+  visibility: ${({ invisible }) => invisible ? 'hidden' : 'unset'};
   background-color: beige;
   display: flex;
   /* flex-direction: column; */
@@ -42,14 +46,34 @@ const Container = styled.div<Props>`
   }
 `;
 
-function Card({ card, position = "top" }: {
-  card: CardType,
-  position?: string
-}) {
+interface OtherPlayerCardComponentProps extends OtherPlayerCardProps {
+  move?: IMove,
+}
+
+export function OtherPlayerCardComponent({
+  card,
+  position = "top",
+  leaving,
+  move,
+}: OtherPlayerCardComponentProps) {
   const { back } = card;
   const color = ["red", "blue"][back];
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    console.log("otherplayercard effect");
+    if (ref.current && leaving && move) {
+      console.log({id: card.id});
+      console.log(move);
+      const { x, y } = ref.current.getBoundingClientRect();
+      move.setPosition({x: x + window.scrollX, y: y + window.scrollY});
+    }
+  }, [ref.current, leaving, move !== undefined]);
   return (
-    <Container position={position}>
+    <Container
+      position={position}
+      ref={ref}
+      invisible={leaving}
+    >
       <img
         src={`./img/back-${color}.png`}
         style={{ width: "100%", height: "100%" }}
@@ -60,4 +84,21 @@ function Card({ card, position = "top" }: {
   );
 }
 
-export default Card;
+interface OtherPlayerCardProps {
+  card: CardType,
+  position?: string
+  leaving: boolean
+  entering: boolean
+}
+
+function OtherPlayerCard(options: OtherPlayerCardProps) {
+  const {
+    moves
+  } = useContext(GameContext);
+  return <OtherPlayerCardComponent
+    {...options}
+    move={moves[options.card.id]}
+  />
+}
+
+export default OtherPlayerCard;

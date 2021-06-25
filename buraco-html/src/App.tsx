@@ -36,6 +36,7 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
+  console.log("render app");
   return (
     <ThemeProvider theme={theme}>
       <Game />

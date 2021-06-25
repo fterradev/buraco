@@ -5,7 +5,7 @@ import Card from "./Card";
 import Sortable from "./Sortable";
 
 const rowGap = "5px";
-const marginCards = "3px";
+const marginCardsPixel = 3;
 
 interface ContainerProps {
   readonly externalBorder?: string;
@@ -19,9 +19,10 @@ const Container = styled.div<ContainerProps>`
   /* padding: 5px 5px 0 5px; */
   padding: ${({ externalBorder = defaultExternalBorder }) =>
     `${externalBorder} ${externalBorder} 0 ${externalBorder}`};
-  margin-left: ${`-${marginCards}`};
+  margin-left: ${`-${marginCardsPixel}px`};
 `;
 function Hand(options: { cards: CardSet }) {
+  // TODO: useEffect to updateState from props
   const [orderedCards, setOrderedCards] = useState(options.cards);
   return (
     <Sortable
@@ -37,7 +38,7 @@ function Hand(options: { cards: CardSet }) {
             card={card}
             rowGap={rowGap}
             externalBorder={defaultExternalBorder}
-            marginCards={marginCards}
+            marginCardsPixel={marginCardsPixel}
           />
         );
       })}

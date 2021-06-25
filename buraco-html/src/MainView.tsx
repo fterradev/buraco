@@ -37,7 +37,7 @@ function MainView() {
     },
     mesaCards
   } = useContext(GameContext);
-  // console.log({JSON.stringify(options.cards)});
+  console.log({length: mesaCards.length});
   return <Container>
     {/* <OtherPlayer player={otherPlayer} /> */}
     {/* <OtherPlayer />

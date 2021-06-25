@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import GameContext, { IMove } from "./context";
 import Player from "./interfaces/Player";
 import OtherPlayerCard from "./OtherPlayerCard";
 
@@ -51,7 +52,13 @@ const Title = styled.span<Props>`
   /* justify-self: center; */
 `;
 
-function OtherPlayer({ player, position = "top", color = "red" }: { player: Player, position?: string, color?: string }) {
+interface OtherPlayerProps { 
+  player: Player, 
+  position?: string, 
+  color?: string
+}
+
+export function OtherPlayerComponent({ player, position = "top", color = "red", moves }: OtherPlayerComponentProps) {
   return <Container position={position} bgColor={color}>
     <div>
       <CardsContainer position={position}>
@@ -60,9 +67,11 @@ function OtherPlayer({ player, position = "top", color = "red" }: { player: Play
             key={card.id}
             card={card}
             position={position}
+            entering={moves[card.id]?.input.destination === player.id}
+            leaving={moves[card.id] !== undefined && moves[card.id].input.destination !== player.id}
           />
         })}
-        <Title position={position}>{player.name}</Title>
+        <Title position={position}>{player.name} {player.hand.length}</Title>
       </CardsContainer>
     </div>
   </Container>;
@@ -96,5 +105,16 @@ function OtherPlayer({ player, position = "top", color = "red" }: { player: Play
 //     </Container>
 //   </div>;
 // }
+
+interface OtherPlayerComponentProps extends OtherPlayerProps {
+  moves: Record<number, IMove>
+}
+
+function OtherPlayer(options: OtherPlayerProps) {
+  const {
+    moves
+  } = useContext(GameContext);
+  return <OtherPlayerComponent {...options} moves={moves} />
+}
 
 export default OtherPlayer;

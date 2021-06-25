@@ -12,9 +12,9 @@ export interface PlayerOptions {
   name: string,
 }
 
-export type Player = PlayerOptions & {
+export type Player<C extends PlayerCard = PlayerCard> = PlayerOptions & {
   id: number,
-  hand: PlayerCardSet,
+  hand: C[],
   hasGoneOut: boolean, // bateu
   team: Team,
 }

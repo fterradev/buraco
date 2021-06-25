@@ -6,7 +6,7 @@ const Sortable = <T extends ItemInterface>(
 ) => {
   const instance = React.useRef<ReactSortable<T>>(null);
   React.useEffect(() => {
-    if (instance) console.log(instance);
+    // if (instance) console.log(instance);
   });
   return (
     <ReactSortable
