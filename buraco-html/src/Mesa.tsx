@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { CardSet } from "buraco/dist/deck";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Card from "./Card";
 import OtherPlayer from "./OtherPlayer";
 import Sortable from "./Sortable";
@@ -36,6 +36,18 @@ const MesaItself = styled.div`
   padding: 10px;
 `;
 
+const GlobalStyleRemove = createGlobalStyle`
+  @keyframes remove {
+    from, 75% {
+        height: var(--card-width);
+    }
+  
+    to {
+      height: calc(0.75 * var(--card-width)); // see marginCard
+    }
+  }
+`;
+
 interface DiscardedCardsProps {
   readonly marginCardsPixel: number;
 }
@@ -66,48 +78,51 @@ export function MesaComponent(options: MesaComponentProps) {
   // }
   const { moves } = options;
   return (
-    <Container>
-      <OtherPlayer player={options.partner} />
-      <MesaWithSidePlayers>
-        {/* <C1>oi</C1> */}
-        {/* <C1> */}
-        <OtherPlayer player={options.opponents[0]} position="left" color="blue" />
-        {/* </C1> */}
-        <MesaItself>
-          <Sortable
-            tag={DiscardedCards}
-            list={options.mesaCards}
-            setList={options.setMesaCards}
-            group={{
-              name: "mesa",
-              put: true
-            }}
-          >
-            {options.mesaCards.map((card, index) => {
-              return (
-                <Card
-                  key={card.id}
-                  index={index}
-                  card={card}
-                  rowGap={rowGap}
-                  externalBorder="5px"
-                  marginCardsPixel={marginCardsPixel}
-                  entering={moves[card.id]?.input.destination === "mesa"}
-                  leaving={moves[card.id] !== undefined && moves[card.id].input.destination !== "mesa"}
-                />
-              );
-            })}
-          </Sortable>
-        </MesaItself>
-        <OtherPlayer
-          player={options.opponents[1]}
-          position="right"
-          color="blue"
-        />
-        {/* <C1>oi</C1>
-      <C2>xau</C2> */}
-      </MesaWithSidePlayers>
-    </Container>
+    <>
+      <GlobalStyleRemove />
+      <Container>
+        <OtherPlayer player={options.partner} />
+        <MesaWithSidePlayers>
+          {/* <C1>oi</C1> */}
+          {/* <C1> */}
+          <OtherPlayer player={options.opponents[0]} position="left" color="blue" />
+          {/* </C1> */}
+          <MesaItself>
+            <Sortable
+              tag={DiscardedCards}
+              list={options.mesaCards}
+              setList={options.setMesaCards}
+              group={{
+                name: "mesa",
+                put: true
+              }}
+            >
+              {options.mesaCards.map((card, index) => {
+                return (
+                  <Card
+                    key={card.id}
+                    index={index}
+                    card={card}
+                    rowGap={rowGap}
+                    externalBorder="5px"
+                    marginCardsPixel={marginCardsPixel}
+                    entering={moves[card.id]?.input.destination === "mesa"}
+                    leaving={moves[card.id] !== undefined && moves[card.id].input.destination !== "mesa"}
+                  />
+                );
+              })}
+            </Sortable>
+          </MesaItself>
+          <OtherPlayer
+            player={options.opponents[1]}
+            position="right"
+            color="blue"
+          />
+          {/* <C1>oi</C1>
+        <C2>xau</C2> */}
+        </MesaWithSidePlayers>
+      </Container>
+    </>
   );
 }
 

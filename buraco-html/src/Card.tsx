@@ -125,8 +125,9 @@ export function CardComponent({
               done();
           }, false);
         }}
-        onExited={() => {
-            console.log("exited")
+        onEntered={() => {
+          console.log("entered");
+          move?.removeLeftCard();
         }}
       >{state => (
         <Container

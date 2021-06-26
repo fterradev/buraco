@@ -33,7 +33,7 @@ function Game() {
     setGame(oldGame => {
       const newGame = clone(oldGame)
       const opponentIndex = 0;
-      const cardIndex = 0;
+      const cardIndex = 3;
       const card = newGame.otherTeam[opponentIndex].hand[cardIndex];
       const enteringCard = clone(card);
       enteringCard.entering = true;
@@ -57,6 +57,16 @@ function Game() {
             newGame.moves[moveIndex].position = position;
             return newGame;
           })
+        },
+        removeLeftCard: () => {
+          setGame((oldGame) => {
+            console.log("removeLeftCard");
+            const newGame = clone(oldGame);
+            const sourceCards = newGame.otherTeam[opponentIndex].hand;
+            const index = sourceCards.findIndex(card => card.id === enteringCard.id);
+            newGame.otherTeam[opponentIndex].hand = [...sourceCards.slice(0, index), ...sourceCards.slice(index + 1)];
+            return newGame;
+          });
         }
         // remove: (id) => {
         //   setGame(({...game}) => {
@@ -87,7 +97,7 @@ function Game() {
       console.log({newGame});
       return newGame;
     });
-  }
+  };
   return (
     <Container>
       <GameContext.Provider value={game}>

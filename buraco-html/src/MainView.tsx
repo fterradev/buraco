@@ -27,10 +27,10 @@ const Container = styled.div`
 `;
 function MainView() {
   const {
-    otherTeam: {
-      "0": opponent1,
-      "1": opponent2,
-    },
+    otherTeam: [
+      opponent1,
+      opponent2,
+    ],
     partner,
     player: {
       hand: playerHand

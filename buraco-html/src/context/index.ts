@@ -15,7 +15,8 @@ export interface IMoveInput {
 export interface IMove {
   input: IMoveInput,
   position?: IPosition,
-  setPosition: (position: IPosition) => void
+  setPosition: (position: IPosition) => void,
+  removeLeftCard: () => void,
 };
 
 interface OtherPlayer extends Player {

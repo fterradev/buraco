@@ -11,7 +11,9 @@ interface Props {
 const borderWidth = "1px";
 const width = "2em";
 const height = "2.5em";
-const marginCard = `calc(-0.75 * var(--card-width))`;
+const marginCalcContent = '-0.75 * var(--card-width)';
+const marginCard = `calc(${marginCalcContent})`;
+const minHeight = `calc(-1 * ${marginCalcContent})`;
 // const widthSmall = `calc(100%/11 - (${marginRight} + 2*${borderWidth}))`;
 // const marginCardSmall = `calc(-0.75 * (100%/11 - (${marginRight} + 2*${borderWidth})))`;
 const Container = styled.div<Props>`
@@ -62,25 +64,46 @@ export function OtherPlayerCardComponent({
   useEffect(() => {
     console.log("otherplayercard effect");
     if (ref.current && leaving && move) {
-      console.log({id: card.id});
+      console.log({ id: card.id });
       console.log(move);
       const { x, y } = ref.current.getBoundingClientRect();
-      move.setPosition({x: x + window.scrollX, y: y + window.scrollY});
+      move.setPosition({ x: x + window.scrollX, y: y + window.scrollY });
     }
   }, [ref.current, leaving, move !== undefined]);
+  const transitionStyles: Record<string, React.CSSProperties> = {
+    exiting: {
+      animationDuration: "2s",
+      animationName: "remove"
+    },
+  };
   return (
-    <Container
-      position={position}
-      ref={ref}
-      invisible={leaving}
-    >
-      <img
-        src={`./img/back-${color}.png`}
-        style={{ width: "100%", height: "100%" }}
-        draggable={false}
-        alt=""
-      />
-    </Container>
+    <Transition
+      in={!leaving}
+      nodeRef={ref}
+      addEndListener={(done) => {
+        // use the css transitionend event to mark the finish of a transition
+        ref.current?.addEventListener('animationend', () => {
+          done();
+        }, false);
+      }}
+    >{state => (
+      <Container
+        position={position}
+        ref={ref}
+        invisible={leaving}
+        style={{
+          ...transitionStyles[state]
+        }}
+      >
+        <img
+          src={`./img/back-${color}.png`}
+          style={{ width: "100%", height: "100%" }}
+          draggable={false}
+          alt=""
+        />
+      </Container>
+    )}
+    </Transition>
   );
 }
 
