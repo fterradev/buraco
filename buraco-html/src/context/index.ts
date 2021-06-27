@@ -1,6 +1,7 @@
 import React from "react";
-import deck, { Card, CardSet } from "buraco/dist/deck";
+import deck from "buraco/dist/deck";
 import Player from "../interfaces/Player";
+import { MovingCard } from "../interfaces/MovingCard";
 
 export interface IPosition {
   x: number,
@@ -8,6 +9,7 @@ export interface IPosition {
 }
 
 export interface IMoveInput {
+  cardId: number,
   source: string | number,
   destination: string | number,
 }
@@ -27,9 +29,9 @@ export interface IGameProperties {
   otherTeam: [OtherPlayer, OtherPlayer],
   partner: OtherPlayer,
   player: Player,
-  deck: CardSet,
-  mesaCards: CardSet,
-  setMesaCards: (mesaCards: CardSet) => void,
+  deck: MovingCard[],
+  mesaCards: MovingCard[],
+  setMesaCards: (mesaCards: MovingCard[]) => void,
   moves: Record<number, IMove>,
 }
 

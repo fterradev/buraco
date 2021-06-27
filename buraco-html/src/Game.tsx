@@ -3,9 +3,10 @@ import styled from "styled-components";
 import "./App.css";
 import MainView from "./MainView";
 import Div from "./Div";
-import GameContext, { IGameProperties, defaultGameProperties } from "./context";
+import GameContext, { IGameProperties, defaultGameProperties, IMove, IMoveInput } from "./context";
 // import cloneDeep from "lodash/cloneDeep";
 import clone from "lodash/clone";
+import { MovingCard } from "./interfaces/MovingCard";
 
 const Container = styled(Div)`
   display: flex;
@@ -14,6 +15,20 @@ const Container = styled(Div)`
   width: 100vw;
   overflow: hidden;
 `;
+
+const getSourceCards = (game: IGameProperties, source: number | string) => {
+  let sourceCards: MovingCard[] = [];
+  if (typeof source === 'number') {
+    sourceCards = game.otherTeam[source].hand;
+  }
+  if (source === 'mesa') {
+    sourceCards = game.mesaCards;
+  }
+  if (source === 'deck') {
+    sourceCards = game.deck;
+  }
+  return sourceCards;
+}
 
 function Game() {
   console.log("render game");
@@ -29,70 +44,57 @@ function Game() {
     }
     return newGame;
   });
-  const f = () => {
+  const f = (moveInput: IMoveInput) => {
+    const {
+      cardId,
+      source,
+    } = moveInput;
     setGame(oldGame => {
       const newGame = clone(oldGame)
-      const opponentIndex = 0;
-      const cardIndex = 3;
-      const card = newGame.otherTeam[opponentIndex].hand[cardIndex];
+      const sourceCards = getSourceCards(newGame, source);
+      const card = sourceCards.find(card => card.id === cardId);
+      if (!card) {
+        return newGame;
+      }
       const enteringCard = clone(card);
       enteringCard.entering = true;
       card.leaving = true;
 
       // const move = initialGame.otherTeam[opponentIndex].moves[cardIndex];
-      const moveIndex = card.id;
+      const moveId = card.id;
       // newGame.mesaCards.push(enteringCard);
       newGame.mesaCards = [...newGame.mesaCards, enteringCard];
-      newGame.moves[moveIndex] = {
-        input: {
-          source: opponentIndex,
-          destination: "mesa",
-        },
+      newGame.moves[moveId] = {
+        input: moveInput,
         // TODO: Set Position outside of the move: setPosition(cardId, position)
         setPosition: (position) => {
           setGame((oldGame) => {
             console.log("setPosition");
             const newGame = clone(oldGame);
             console.log({cloned: newGame});
-            newGame.moves[moveIndex].position = position;
+            newGame.moves[moveId].position = position;
             return newGame;
-          })
+          });
         },
         removeLeftCard: () => {
           setGame((oldGame) => {
             console.log("removeLeftCard");
             const newGame = clone(oldGame);
-            const sourceCards = newGame.otherTeam[opponentIndex].hand;
+            const sourceCards = getSourceCards(newGame, source);
             const index = sourceCards.findIndex(card => card.id === enteringCard.id);
-            newGame.otherTeam[opponentIndex].hand = [...sourceCards.slice(0, index), ...sourceCards.slice(index + 1)];
+            const newCards = [...sourceCards.slice(0, index), ...sourceCards.slice(index + 1)];
+            if (typeof source === 'number') {
+              newGame.otherTeam[source].hand = newCards;
+            }
+            if (source === 'mesa') {
+              newGame.mesaCards = newCards;
+            }
+            if (source === 'deck') {
+              newGame.deck = newCards;
+            }
             return newGame;
           });
         }
-        // remove: (id) => {
-        //   setGame(({...game}) => {
-        //     console.log("setGame");
-        //     game.otherTeam[opponentIndex].hand = [...game.otherTeam[opponentIndex].hand];
-        //     const removed = game.otherTeam[opponentIndex].hand.splice(cardIndex, 1);
-        //     console.log(id, {removed});
-        //     // console.trace();
-        //     // console.log({moves: game.moves});
-        //     return game;
-        //   });
-        // },
-        // finish: () => {
-        //   console.log("setGame");
-        //   game.moves.splice(moveIndex, 1);
-        // },
-        // insert: () => {
-        //   setGame(({...game}) => {
-        //     console.log("setGame");
-        //     console.log("inserting");
-        //     game.mesaCards = [...game.mesaCards, card];
-        //     console.log({length: game.mesaCards.length});
-        //     // delete game.otherTeam[opponentIndex].moves[cardIndex];
-        //     return game;
-        //   });
-        // },
       };
       console.log({newGame});
       return newGame;
@@ -103,7 +105,16 @@ function Game() {
       <GameContext.Provider value={game}>
         {/* <div>{game.mesaCards.length}</div> */}
         <MainView />
-        <button onClick={f}>
+        <button onClick={() => {
+          const source = 0;
+          const index = 3;
+          const cardId = game.otherTeam[source].hand[index].id;
+          f({
+            cardId,
+            source,
+            destination: 'mesa'
+          });
+        }}>
           go
         </button>
       </GameContext.Provider>
