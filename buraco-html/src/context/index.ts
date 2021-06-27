@@ -27,6 +27,7 @@ export interface IGameProperties {
   otherTeam: [OtherPlayer, OtherPlayer],
   partner: OtherPlayer,
   player: Player,
+  deck: CardSet,
   mesaCards: CardSet,
   setMesaCards: (mesaCards: CardSet) => void,
   moves: Record<number, IMove>,
@@ -37,6 +38,7 @@ const handCards = deck.slice(13, 13 + 11);
 const otherCards1 = deck.slice(26, 26 + 11);
 const otherCards2 = deck.slice(39, 39 + 11);
 const otherCards3 = deck.slice(52, 52 + 11);
+const gameDeck = deck.slice(65);
 
 export const defaultGameProperties: IGameProperties = {
   otherTeam: [{
@@ -58,6 +60,7 @@ export const defaultGameProperties: IGameProperties = {
     name: "Eu mesmo",
     hand: handCards as any
   },
+  deck: gameDeck,
   mesaCards,
   moves: {},
   setMesaCards: () => {

@@ -29,11 +29,28 @@ const MesaWithSidePlayers = styled.div`
 const MesaItself = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  padding: 10px;
+  // row-gap: 10px;
+  justify-content: space-evenly;
+`;
+
+const DeckContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   flex: 1;
   /* flex-grow: 1; */
   flex-wrap: wrap;
-  padding: 10px;
+`;
+
+const DiscardedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 2;
+  /* flex-grow: 1; */
+  flex-wrap: wrap;
 `;
 
 const GlobalStyleRemove = createGlobalStyle`
@@ -88,30 +105,35 @@ export function MesaComponent(options: MesaComponentProps) {
           <OtherPlayer player={options.opponents[0]} position="left" color="blue" />
           {/* </C1> */}
           <MesaItself>
-            <Sortable
-              tag={DiscardedCards}
-              list={options.mesaCards}
-              setList={options.setMesaCards}
-              group={{
-                name: "mesa",
-                put: true
-              }}
-            >
-              {options.mesaCards.map((card, index) => {
-                return (
-                  <Card
-                    key={card.id}
-                    index={index}
-                    card={card}
-                    rowGap={rowGap}
-                    externalBorder="5px"
-                    marginCardsPixel={marginCardsPixel}
-                    entering={moves[card.id]?.input.destination === "mesa"}
-                    leaving={moves[card.id] !== undefined && moves[card.id].input.destination !== "mesa"}
-                  />
-                );
-              })}
-            </Sortable>
+            <DeckContainer>
+
+            </DeckContainer>
+            <DiscardedContainer>
+              <Sortable
+                tag={DiscardedCards}
+                list={options.mesaCards}
+                setList={options.setMesaCards}
+                group={{
+                  name: "mesa",
+                  put: true
+                }}
+              >
+                {options.mesaCards.map((card, index) => {
+                  return (
+                    <Card
+                      key={card.id}
+                      index={index}
+                      card={card}
+                      rowGap={rowGap}
+                      externalBorder="5px"
+                      marginCardsPixel={marginCardsPixel}
+                      entering={moves[card.id]?.input.destination === "mesa"}
+                      leaving={moves[card.id] !== undefined && moves[card.id].input.destination !== "mesa"}
+                    />
+                  );
+                })}
+              </Sortable>
+            </DiscardedContainer>
           </MesaItself>
           <OtherPlayer
             player={options.opponents[1]}
