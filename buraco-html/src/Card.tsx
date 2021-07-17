@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { PropsWithoutRef, useContext, useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
 import GameContext, { IMove, IPosition } from "./context";
@@ -61,7 +61,7 @@ interface CardComponentProps extends CardProps {
   move?: IMove,
 };
 
-export function CardComponent({
+export const CardComponent = ({
   card,
   rowGap,
   externalBorder,
@@ -69,8 +69,9 @@ export function CardComponent({
   index,
   entering = false,
   leaving = false,
-  move
-}: CardComponentProps) {
+  move,
+  filterOut = false,
+}: CardComponentProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [enterPosition, setEnterPosition] = useState<IPosition>();
   if (card.id === 26) {
@@ -131,6 +132,7 @@ export function CardComponent({
         }}
       >{state => (
         <Container
+          className={filterOut ? "filtered" : undefined}
           ref={ref}
           color={color}
           rowGap={rowGap}
@@ -158,6 +160,7 @@ interface CardProps {
   index: number;
   entering?: boolean;
   leaving?: boolean;
+  filterOut?: boolean;
 };
 
 function Card(options: CardProps) {

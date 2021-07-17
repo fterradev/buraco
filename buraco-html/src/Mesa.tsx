@@ -6,6 +6,7 @@ import OtherPlayer from "./OtherPlayer";
 import Sortable from "./Sortable";
 import Player from "./interfaces/Player";
 import GameContext, { IMove } from "./context";
+import Deck from "./Deck";
 
 const rowGap = "5px";
 
@@ -37,8 +38,9 @@ const MesaItself = styled.div`
 
 const DeckContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: flex-end;
   flex: 1;
   /* flex-grow: 1; */
   flex-wrap: wrap;
@@ -106,7 +108,7 @@ export function MesaComponent(options: MesaComponentProps) {
           {/* </C1> */}
           <MesaItself>
             <DeckContainer>
-
+              <Deck cards={options.deck} />
             </DeckContainer>
             <DiscardedContainer>
               <Sortable
@@ -149,7 +151,8 @@ export function MesaComponent(options: MesaComponentProps) {
 }
 
 interface MesaProps {
-  deckLength: number;
+  // deckLength: number;
+  deck: CardSet,
   mesaCards: CardSet;
   setMesaCards: (mesaCards: CardSet) => void;
   mortosLength: number;

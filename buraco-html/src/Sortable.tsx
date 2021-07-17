@@ -1,12 +1,15 @@
 import React from "react";
 import { ReactSortable, ItemInterface } from "react-sortablejs";
+import "./sortable.css";
 
 const Sortable = <T extends ItemInterface>(
   props: ReactSortable<T>["props"]
 ) => {
   const instance = React.useRef<ReactSortable<T>>(null);
   React.useEffect(() => {
-    // if (instance) console.log(instance);
+    if (instance) {
+      console.log(instance);
+    }
   });
   return (
     <ReactSortable

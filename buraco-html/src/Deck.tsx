@@ -5,7 +5,9 @@ import Card from "./Card";
 import Sortable from "./Sortable";
 
 const rowGap = "5px";
-const marginCardsPixel = 3;
+const marginCardsPixel = -0.25;
+
+const handMarginCardsPixel = 3;
 
 interface ContainerProps {
   readonly externalBorder?: string;
@@ -13,26 +15,42 @@ interface ContainerProps {
 const defaultExternalBorder = "5px";
 const Container = styled.div<ContainerProps>`
   background-color: #258559;
-  display: flex;
+  display: block;
+  position: absolute;
   flex-wrap: wrap;
-  /* margin-bottom: -${rowGap}; */
-  /* padding: 5px 5px 0 5px; */
   padding: ${({ externalBorder = defaultExternalBorder }) =>
     `${externalBorder} ${externalBorder} 0 ${externalBorder}`};
-  margin-left: ${`-${marginCardsPixel}px`};
+  ${Array(40).fill(0).map((_, index) => {
+    return `& > div:nth-child(${index+1}) {
+      position: absolute;
+      margin-left: ${marginCardsPixel * index}px;
+      margin-top: ${marginCardsPixel * index}px;
+      box-shadow: 0 1px 2px rgb(245 245 220 / 25%);
+    }`;
+  })}
+  height: var(--card-height);
+  & > div {
+    position: absolute;
+    box-shadow: 0 1px 2px rgb(245 245 220 / 25%);
+  }
 `;
 function Hand(options: { cards: CardSet }) {
   // TODO: useEffect to updateState from props, or update state in the context - see mesaCards.
+  const topCard = options.cards.slice(-1);
+  const otherCardsDeck = options.cards.slice(0, -1);
   const [orderedCards, setOrderedCards] = useState(options.cards);
+  const topIndex = orderedCards.length - 1;
   return (
     <Sortable
       tag={Container}
       list={orderedCards}
       setList={setOrderedCards}
+      filter=".filtered"
       group={{
-        name: "hand",
-        put: true
+        name: "deck",
+        put: false,
       }}
+      sort={false}
     >
       {orderedCards.map((card, index) => {
         return (
@@ -42,7 +60,9 @@ function Hand(options: { cards: CardSet }) {
             card={card}
             rowGap={rowGap}
             externalBorder={defaultExternalBorder}
-            marginCardsPixel={marginCardsPixel}
+            marginCardsPixel={handMarginCardsPixel}
+            filterOut={index < topIndex}
+            // isPile
           />
         );
       })}

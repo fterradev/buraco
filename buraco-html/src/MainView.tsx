@@ -20,6 +20,7 @@ const Container = styled.div`
   --card-height-with-border: calc(var(--card-height) + 2*1px);
   --negative-margin: calc(var(--card-height) * 0.4);
   --reduced-player-height: calc(var(--card-height-with-border) - var(--negative-margin));
+  --pile-offset: 1px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -36,7 +37,8 @@ function MainView() {
       hand: playerHand
     },
     mesaCards,
-    setMesaCards
+    setMesaCards,
+    deck
   } = useContext(GameContext);
   console.log({length: mesaCards.length});
   return <Container>
@@ -45,7 +47,8 @@ function MainView() {
     <OtherPlayer />
     <OtherPlayer /> */}
     <Mesa
-      deckLength={80}
+      // deckLength={80}
+      deck={deck}
       mesaCards={mesaCards}
       setMesaCards={setMesaCards}
       mortosLength={2}
