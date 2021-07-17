@@ -91,7 +91,7 @@ export const CardComponent = ({
   }, [ref.current !== undefined, leaving, entering, move !== undefined]);
   const transitionStyles: Record<string, React.CSSProperties> = {
     entering: {
-        animationDuration: "2s",
+        animationDuration: "1.25s",
         animationName: "slidein"
       },
     // entered: {

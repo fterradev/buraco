@@ -7,3 +7,7 @@ A: yes, with inner style in the container style.
 
 4. OnSpill, and other events like onUpdate, onSort, etc.
 And also highlight each dropping area. Always(1) and/or during hover(2). If both, use two different styles.
+
+5. Centralize animation time.
+
+6. Move all fixed css styles from cards to their container. Like it was partially done with Deck.

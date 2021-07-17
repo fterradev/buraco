@@ -72,7 +72,7 @@ export function OtherPlayerCardComponent({
   }, [ref.current, leaving, move !== undefined]);
   const transitionStyles: Record<string, React.CSSProperties> = {
     exiting: {
-      animationDuration: "2s",
+      animationDuration: "1.25s",
       animationName: "remove"
     },
   };
