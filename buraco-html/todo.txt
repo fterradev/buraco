@@ -11,3 +11,9 @@ And also highlight each dropping area. Always(1) and/or during hover(2). If both
 5. Centralize animation time.
 
 6. Move all fixed css styles from cards to their container. Like it was partially done with Deck.
+
+7. Uniformize other-players/partner. (source/destination id)
+
+8. Maybe have uuid for each card. Or even sequenced IDs after shuffling. And hide card details until revelation to each player.
+
+9. Remove the move information from the context after its completion.
