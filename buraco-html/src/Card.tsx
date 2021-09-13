@@ -5,6 +5,7 @@ import GameContext, { IMove, IPosition } from "./context";
 import { Transition } from "react-transition-group";
 import { forceRedraw, isFaceDown } from "./utils";
 import BackCard from "./BackCard";
+import { CARD_MOVE_DURATION } from "./constants";
 
 const borderWidth = "1px";
 interface ContainerProps {
@@ -72,15 +73,32 @@ interface CssSlideInProps {
 const CssSlideIn = createGlobalStyle<CssSlideInProps>`
   @keyframes slidein {
     from {
-        left: ${({initial}) => initial.position.x}px;
-        top: ${({initial}) => initial.position.y}px;
-        position: absolute;
+      left: ${({initial}) => initial.position.x}px;
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg) translateX(-100%);
+      transform-origin: left top;
+      margin: 0;
+      animation-timing-function: ease-in;
+      border: 2px solid red;
+    }
+
+    25% {
+      left: ${({initial}) => `calc(${initial.position.x}px + var(--card-height))`};
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg) translateX(-100%);
+      transform-origin: left top;
+      margin: 0;
+      animation-timing-function: linear;
+      border: none;
     }
   
     to {
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
+      animation-timing-function: ease-out;
     }
   }
   @keyframes flip {
@@ -119,15 +137,15 @@ export const CardComponent = ({
     if (ref.current && (leaving || entering) && move) {
       const { x, y } = ref.current.getBoundingClientRect();
       if (leaving) {
-        move.setPosition({x: x + window.scrollX, y: y + window.scrollY});
+        move.setPosition({x: x + window.scrollX, y: y + window.scrollY, position: "bottom"});
       } else {
         console.log("setEnterPosition");
-        setEnterPosition({x: x + window.scrollX - marginCardsPixel, y: y + window.scrollY});
+        setEnterPosition({x: x + window.scrollX - marginCardsPixel, y: y + window.scrollY, position: "bottom"});
       }
     }
   }, [ref.current !== undefined, leaving, entering, move !== undefined]);
   const commonAnimation: React.CSSProperties = {
-    animationDuration: "1.25s",
+    animationDuration: CARD_MOVE_DURATION,
   };
   const containerTransitions: Record<string, React.CSSProperties> = {
     entering: {

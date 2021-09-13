@@ -54,7 +54,7 @@ const Title = styled.span<Props>`
 
 interface OtherPlayerProps { 
   player: Player, 
-  position?: string, 
+  position?: "top" | "left" | "right", 
   color?: string
 }
 

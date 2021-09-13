@@ -5,7 +5,8 @@ import { MovingCard } from "../interfaces/MovingCard";
 
 export interface IPosition {
   x: number,
-  y: number
+  y: number,
+  position: "top" | "left" | "right" | "bottom"
 }
 
 export interface IMoveInput {
@@ -35,7 +36,7 @@ export interface IGameProperties {
   moves: Record<number, IMove>,
 }
 
-const mesaCards = deck.slice(0, 5);
+const mesaCards = deck.slice(0, 8);
 const handCards = deck.slice(13, 13 + 11);
 const otherCards1 = deck.slice(26, 26 + 11);
 const otherCards2 = deck.slice(39, 39 + 11);

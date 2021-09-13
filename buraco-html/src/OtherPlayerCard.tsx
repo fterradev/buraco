@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
 import GameContext, { IMove, IPosition } from "./context";
 import { Transition } from "react-transition-group";
+import { CARD_MOVE_DURATION } from "./constants";
 
 interface Props {
   readonly position: string;
@@ -11,7 +12,7 @@ interface Props {
 const borderWidth = "1px";
 const width = "2em";
 const height = "2.5em";
-const marginCalcContent = '-0.75 * var(--card-width)';
+const marginCalcContent = '-0.7 * var(--card-width)';
 const marginCard = `calc(${marginCalcContent})`;
 const minHeight = `calc(-1 * ${marginCalcContent})`;
 // const widthSmall = `calc(100%/11 - (${marginRight} + 2*${borderWidth}))`;
@@ -67,12 +68,12 @@ export function OtherPlayerCardComponent({
       console.log({ id: card.id });
       console.log(move);
       const { x, y } = ref.current.getBoundingClientRect();
-      move.setPosition({ x: x + window.scrollX, y: y + window.scrollY });
+      move.setPosition({ x: x + window.scrollX, y: y + window.scrollY, position });
     }
   }, [ref.current, leaving, move !== undefined]);
   const transitionStyles: Record<string, React.CSSProperties> = {
     exiting: {
-      animationDuration: "1.25s",
+      animationDuration: CARD_MOVE_DURATION,
       animationName: "remove"
     },
   };
@@ -109,7 +110,7 @@ export function OtherPlayerCardComponent({
 
 interface OtherPlayerCardProps {
   card: CardType,
-  position?: string
+  position?: "top" | "left" | "right",
   leaving: boolean
   entering: boolean
 }
