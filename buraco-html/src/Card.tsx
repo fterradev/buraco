@@ -71,7 +71,37 @@ interface CssSlideInProps {
 }
 
 const CssSlideIn = createGlobalStyle<CssSlideInProps>`
-  @keyframes slidein {
+  @keyframes slidein1 {
+    from {
+      left: ${({initial}) => `calc(${initial.position.x}px - var(--card-width))`};
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg);
+      transform-origin: right top;
+      margin: 0;
+      animation-timing-function: ease-in;
+      border: 2px solid red;
+    }
+
+    25% {
+      left: ${({initial}) => initial.position.x}px;
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg);
+      transform-origin: right top;
+      margin: 0;
+      animation-timing-function: linear;
+      border: none;
+    }
+  
+    to {
+      left: ${({final}) => final.position.x}px;
+      top: ${({final}) => final.position.y}px;
+      position: absolute;
+      animation-timing-function: ease-out;
+    }
+  }
+  @keyframes slidein2 {
     from {
       left: ${({initial}) => initial.position.x}px;
       top: ${({initial}) => initial.position.y}px;
@@ -101,8 +131,38 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       animation-timing-function: ease-out;
     }
   }
+  @keyframes slidein3 {
+    from {
+      left: ${({initial}) => initial.position.x}px;
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg) translateX(-100%);
+      transform-origin: left top;
+      margin: 0;
+      animation-timing-function: ease-in;
+      border: 2px solid red;
+    }
+
+    25% {
+      left: ${({initial}) => initial.position.x}px;
+      top: ${({initial}) => initial.position.y}px;
+      position: absolute;
+      transform: rotate(-90deg) translateX(-100%) translateY(50%);
+      transform-origin: left top;
+      margin: 0;
+      animation-timing-function: linear;
+      border: none;
+    }
+  
+    to {
+      left: ${({final}) => final.position.x}px;
+      top: ${({final}) => final.position.y}px;
+      position: absolute;
+      animation-timing-function: ease-out;
+    }
+  }
   @keyframes flip {
-    from, 25% {
+    from, 50% {
       transform: rotateY(-180deg);
     }
   
@@ -150,7 +210,7 @@ export const CardComponent = ({
   const containerTransitions: Record<string, React.CSSProperties> = {
     entering: {
         ...commonAnimation,
-        animationName: "slidein"
+        animationName: "slidein1"
       },
     // entered: {
     //     backgroundColor: "red"
