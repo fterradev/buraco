@@ -92,7 +92,7 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       animation-timing-function: linear;
     }
   
-    to {
+    99%, to {
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
@@ -159,11 +159,11 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
     }
   }
   @keyframes flip {
-    from, 50% {
+    from, 60% {
       transform: rotateY(-180deg);
     }
   
-    to {
+    99%, to {
       transform: rotateY(0);
     }
   }
@@ -197,7 +197,7 @@ export const CardComponent = ({
         move.setPosition({x: x + window.scrollX, y: y + window.scrollY, position: "bottom"});
       } else {
         console.log("setEnterPosition");
-        setEnterPosition({x: x + window.scrollX - marginCardsPixel, y: y + window.scrollY, position: "bottom"});
+        setEnterPosition({x: x + window.scrollX, y: y + window.scrollY, position: "bottom"});
       }
     }
   }, [ref.current !== undefined, leaving, entering, move !== undefined]);
