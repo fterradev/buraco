@@ -67,6 +67,12 @@ const GlobalStyleRemove = createGlobalStyle`
   }
 `;
 
+const CssFlip = createGlobalStyle`
+  .flip {
+    transform: rotateY(180deg);
+  }
+`;
+
 interface DiscardedCardsProps {
   readonly marginCardsPixel: number;
 }
@@ -99,6 +105,7 @@ export function MesaComponent(options: MesaComponentProps) {
   return (
     <>
       <GlobalStyleRemove />
+      <CssFlip />
       <Container>
         <OtherPlayer player={options.partner} />
         <MesaWithSidePlayers>

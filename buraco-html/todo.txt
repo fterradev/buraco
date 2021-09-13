@@ -11,9 +11,34 @@ And also highlight each dropping area. Always(1) and/or during hover(2). If both
 5. Centralize animation time.
 
 6. Move all fixed css styles from cards to their container. Like it was partially done with Deck.
+  6.1. Move constant css styles from Card to Deck... But those things should be moved to Hand and Mesa as well... How???
+  6.2. Move constant css styles from OtherPlayerCard to OtherPlayer.
+    6.2.1. If Card uses OtherPlayerCard, will need to move them to the Card containers as well (see 6.1).
+
+> So maybe, instead of moving to the container, create a CSS class and just apply to the container.
+> As far as I rememeber, I believe non-transitioning properties need to be kept on the container child style definition, to avoid issues with the animation. (I may be wrong)
 
 7. Uniformize other-players/partner. (source/destination id)
 
 8. Maybe have uuid for each card. Or even sequenced IDs after shuffling. And hide card details until revelation to each player.
 
 9. Remove the move information from the context after its completion.
+
+10. Maybe call "mesa" only the place where cards are discarded - instead of including the deck - also what about the mortos?
+
+11. Increase sortable animation time.
+
+12. OtherPlayerCard is 1 pixel wider and 1 pixel heigher than Card, after the app started to use the border-box model.
+
+13. Have a single source of truth for cards location (discarded, deck, or which player).
+Idea:
+    key -> cardId
+    location: (discarded, deck, or which player)
+    (maybe) index: number
+And when a component wants to render this card, it first checks that the card location matches its own location.
+When it does not, it should just allow an empty space there (until the animation is done).
+
+And we can have the concept of "HypotheticalCard" (or some other name) that is either an actual card or just an empty space (for layout purposes).
+
+14. OtherPlayerCard should reuse BackCard. Is it possible? - In fact it should reuse Card itself - for making the flip animation possible.
+Well, maybe we should have just the Card component, but more flexible.
