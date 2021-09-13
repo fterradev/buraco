@@ -22,10 +22,8 @@ const Container = styled.div<ContainerProps>`
     `${externalBorder} ${externalBorder} 0 ${externalBorder}`};
   ${Array(40).fill(0).map((_, index) => {
     return `& > div:nth-child(${index+1}) {
-      position: absolute;
       margin-left: ${marginCardsPixel * index}px;
       margin-top: ${marginCardsPixel * index}px;
-      box-shadow: 0 1px 2px rgb(245 245 220 / 25%);
     }`;
   })}
   height: var(--card-height);
@@ -34,7 +32,7 @@ const Container = styled.div<ContainerProps>`
     box-shadow: 0 1px 2px rgb(245 245 220 / 25%);
   }
 `;
-function Hand(options: { cards: CardSet }) {
+function Deck(options: { cards: CardSet }) {
   // TODO: useEffect to updateState from props, or update state in the context - see mesaCards.
   const topCard = options.cards.slice(-1);
   const otherCardsDeck = options.cards.slice(0, -1);
@@ -70,4 +68,4 @@ function Hand(options: { cards: CardSet }) {
   );
 }
 
-export default Hand;
+export default Deck;

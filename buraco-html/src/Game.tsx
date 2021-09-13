@@ -54,6 +54,7 @@ function Game() {
       const sourceCards = getSourceCards(newGame, source);
       const card = sourceCards.find(card => card.id === cardId);
       if (!card) {
+        console.error(`card ${cardId} not found in ${source}`);
         return newGame;
       }
       const enteringCard = clone(card);

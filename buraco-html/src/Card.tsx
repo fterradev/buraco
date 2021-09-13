@@ -3,59 +3,96 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Card as CardType } from "buraco/dist/deck";
 import GameContext, { IMove, IPosition } from "./context";
 import { Transition } from "react-transition-group";
+import { forceRedraw, isFaceDown } from "./utils";
+import BackCard from "./BackCard";
 
 const borderWidth = "1px";
 interface ContainerProps {
-  readonly rowGap: string;
-  readonly externalBorder: string;
-  readonly marginCards: string;
   readonly invisible: boolean;
+  readonly externalBorder: string;
+  readonly rowGap: string;
+  readonly marginCards: string;
 }
 const Container = styled.div<ContainerProps>`
   visibility: ${({ invisible }) => invisible ? 'hidden' : 'unset'};
-  background-color: beige;
-  display: flex;
-  flex-direction: column;
-  font-family: card-characters;
-  font-size: 1.5rem;
-  color: ${(props) => props.color || "black"};
-  align-items: center;
-  border-width: ${borderWidth};
-  border-style: solid;
-  border-color: black;
-  border-radius: 3px;
   margin-left: ${({ marginCards }) => marginCards};
   margin-bottom: ${({ rowGap = "" }) => rowGap};
   width: var(--card-width);
   height: var(--card-height);
-  /* width: 3cm; */
-  /* max-width: 7vw; */
-
-  /* &:last-child {
-    margin-left: 0;
-  } */
+  perspective: 200px;
 `;
 
-interface GlobalStyleProps {
-  initial: IPosition,
-  final: IPosition
+const InnerContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  & > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+`
+
+interface FrontProps {
 }
 
-const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+const Front = styled.div<FrontProps>`
+background-color: beige;
+display: flex;
+flex-direction: column;
+font-family: card-characters;
+font-size: 1.5rem;
+color: ${(props) => props.color || "black"};
+align-items: center;
+border-width: ${borderWidth};
+border-style: solid;
+border-color: black;
+border-radius: 3px;
+/* width: 3cm; */
+/* max-width: 7vw; */
+
+/* &:last-child {
+  margin-left: 0;
+} */
+backface-visibility: hidden;
+`;
+
+interface CssSlideInProps {
+  initial: {
+    position: IPosition,
+    faceDown: boolean,
+  },
+  final: {
+    position: IPosition,
+  }
+}
+
+const CssSlideIn = createGlobalStyle<CssSlideInProps>`
   @keyframes slidein {
     from {
-        left: ${({initial}) => initial.x}px;
-        top: ${({initial}) => initial.y}px;
+        left: ${({initial}) => initial.position.x}px;
+        top: ${({initial}) => initial.position.y}px;
         position: absolute;
     }
   
     to {
-      left: ${({final}) => final.x}px;
-      top: ${({final}) => final.y}px;
+      left: ${({final}) => final.position.x}px;
+      top: ${({final}) => final.position.y}px;
       position: absolute;
     }
   }
-`
+  @keyframes flip {
+    from, 25% {
+      transform: rotateY(-180deg);
+    }
+  
+    to {
+      transform: rotateY(0);
+    }
+  }
+`;
 
 interface CardComponentProps extends CardProps {
   move?: IMove,
@@ -89,14 +126,23 @@ export const CardComponent = ({
       }
     }
   }, [ref.current !== undefined, leaving, entering, move !== undefined]);
-  const transitionStyles: Record<string, React.CSSProperties> = {
+  const commonAnimation: React.CSSProperties = {
+    animationDuration: "1.25s",
+  };
+  const containerTransitions: Record<string, React.CSSProperties> = {
     entering: {
-        animationDuration: "1.25s",
+        ...commonAnimation,
         animationName: "slidein"
       },
     // entered: {
     //     backgroundColor: "red"
     // }
+  };
+  const innerContainerTransitions: Record<string, React.CSSProperties> = {
+    entering: {
+        ...commonAnimation,
+        animationName: "flip"
+      },
   };
   const { rank, suit } = card;
   const realRank =
@@ -112,9 +158,14 @@ export const CardComponent = ({
   }
   return (
     <>
-      {move?.position && enterPosition && <GlobalStyle
-          initial={move?.position}
-          final={enterPosition}
+      {move?.position && enterPosition && <CssSlideIn
+          initial={{
+            position: move.position,
+            faceDown: isFaceDown(move.input.source)
+          }}
+          final={{
+            position: enterPosition
+          }}
       />}
       <Transition
         appear
@@ -124,6 +175,8 @@ export const CardComponent = ({
           // use the css transitionend event to mark the finish of a transition
           ref.current?.addEventListener('animationend', () => {
               done();
+              // const element = (ref.current?.children[0] as HTMLElement);
+              // forceRedraw(element);
           }, false);
         }}
         onEntered={() => {
@@ -134,17 +187,30 @@ export const CardComponent = ({
         <Container
           className={filterOut ? "filtered" : undefined}
           ref={ref}
-          color={color}
           rowGap={rowGap}
           externalBorder={externalBorder}
           marginCards={`${marginCardsPixel}px`}
           invisible={leaving}
           style={{
-            ...transitionStyles[state]
+            ...containerTransitions[state]
           }}
         >
-          <div>{realRank}</div>
-          <div>{realSuit}</div>
+          <InnerContainer
+            style={{
+              ...innerContainerTransitions[state]
+            }}
+          >
+            <Front
+              color={color}
+            >
+              <div>{realRank}</div>
+              <div>{realSuit}</div>
+            </Front>
+            <BackCard
+              card={card}
+              upwards
+            />
+          </InnerContainer>
         </Container>
       )}
       </Transition>
