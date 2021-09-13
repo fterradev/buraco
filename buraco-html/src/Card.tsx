@@ -80,7 +80,6 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: right top;
       margin: 0;
       animation-timing-function: ease-in;
-      border: 2px solid red;
     }
 
     25% {
@@ -91,13 +90,13 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: right top;
       margin: 0;
       animation-timing-function: linear;
-      border: none;
     }
   
     to {
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
+      margin: 0;
       animation-timing-function: ease-out;
     }
   }
@@ -110,7 +109,6 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: left top;
       margin: 0;
       animation-timing-function: ease-in;
-      border: 2px solid red;
     }
 
     25% {
@@ -121,13 +119,13 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: left top;
       margin: 0;
       animation-timing-function: linear;
-      border: none;
     }
   
     to {
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
+      margin: 0;
       animation-timing-function: ease-out;
     }
   }
@@ -140,7 +138,6 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: left top;
       margin: 0;
       animation-timing-function: ease-in;
-      border: 2px solid red;
     }
 
     25% {
@@ -151,13 +148,13 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       transform-origin: left top;
       margin: 0;
       animation-timing-function: linear;
-      border: none;
     }
   
     to {
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
+      margin: 0;
       animation-timing-function: ease-out;
     }
   }
