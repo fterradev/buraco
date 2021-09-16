@@ -70,26 +70,72 @@ interface CssSlideInProps {
   }
 }
 
+const leftCardWidth = (position: string) => {
+  switch (position) {
+    case "left":
+      return "((-1) * var(--card-width))";
+    case "right":
+      return "(var(--card-height))";
+    default:
+      break;
+  }
+}
+
+const leftCardMove = (position: string) => {
+  switch (position) {
+    case "left":
+      return "(0.5 * var(--card-height))";
+    case "right":
+      return "((-0.5) * var(--card-height))";
+    default:
+      break;
+  }
+}
+
+const rotate = (position: string) => {
+  switch (position) {
+    case "left":
+      return "rotate(-90deg)";
+    case "right":
+      return "rotate(90deg)";
+    default:
+      break;
+  }
+}
+
+const rotateOrigin = (position: string) => {
+  switch (position) {
+    case "left":
+      return "right top";
+    case "right":
+      return "left top";
+    default:
+      break;
+  }
+}
+
 const CssSlideIn = createGlobalStyle<CssSlideInProps>`
   @keyframes slidein1 {
     from {
-      left: ${({initial}) => `calc(${initial.position.x}px - var(--card-width))`};
+      left: ${({initial}) => `calc(${initial.position.x}px + ${leftCardWidth(initial.position.position)})`};
       top: ${({initial}) => initial.position.y}px;
       position: absolute;
-      transform: rotate(-90deg);
-      transform-origin: right top;
+      transform: ${({initial}) => rotate(initial.position.position)};
+      transform-origin: ${({initial}) => rotateOrigin(initial.position.position)};
       margin: 0;
       animation-timing-function: ease-in;
+      // z-index: 10;
     }
 
     25% {
-      left: ${({initial}) => initial.position.x}px;
+      left: ${({initial}) => `calc(${initial.position.x}px + ${leftCardWidth(initial.position.position)} + ${leftCardMove(initial.position.position)})`};
       top: ${({initial}) => initial.position.y}px;
       position: absolute;
-      transform: rotate(-90deg);
-      transform-origin: right top;
+      transform: ${({initial}) => rotate(initial.position.position)};
+      transform-origin: ${({initial}) => rotateOrigin(initial.position.position)};
       margin: 0;
       animation-timing-function: linear;
+      // z-index: 10;
     }
   
     99%, to {
@@ -98,6 +144,7 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       position: absolute;
       margin: 0;
       animation-timing-function: ease-out;
+      // z-index: 10;
     }
   }
   @keyframes slidein2 {

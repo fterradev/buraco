@@ -42,3 +42,7 @@ And we can have the concept of "HypotheticalCard" (or some other name) that is e
 
 14. OtherPlayerCard should reuse BackCard. Is it possible? - In fact it should reuse Card itself - for making the flip animation possible.
 Well, maybe we should have just the Card component, but more flexible.
+
+15. Invert flip angle left vs right opponent.
+
+16. Fix z-index for animations.
