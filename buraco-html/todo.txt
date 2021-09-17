@@ -22,7 +22,8 @@ And also highlight each dropping area. Always(1) and/or during hover(2). If both
 
 8. Maybe have uuid for each card. Or even sequenced IDs after shuffling. And hide card details until revelation to each player.
 
-9. Remove the move information from the context after its completion.
+---9. Remove the move information from the context after its completion.---
+DONE
 
 10. Maybe call "mesa" only the place where cards are discarded - instead of including the deck - also what about the mortos?
 
@@ -46,3 +47,5 @@ Well, maybe we should have just the Card component, but more flexible.
 15. Invert flip angle left vs right opponent.
 
 16. Fix z-index for animations.
+
+17. Remove Card with number 1.

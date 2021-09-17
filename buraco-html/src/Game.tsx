@@ -16,6 +16,8 @@ const Container = styled(Div)`
   overflow: hidden;
 `;
 
+let globalSource = 0;
+
 const getSourceCards = (game: IGameProperties, source: number | string) => {
   let sourceCards: MovingCard[] = [];
   if (typeof source === 'number') {
@@ -93,6 +95,8 @@ function Game() {
             if (source === 'deck') {
               newGame.deck = newCards;
             }
+            const newMoves = newGame.moves;
+            delete newMoves[moveId];
             return newGame;
           });
         }
@@ -107,7 +111,9 @@ function Game() {
         {/* <div>{game.mesaCards.length}</div> */}
         <MainView />
         <button onClick={() => {
-          const source = 0;
+          const source = globalSource;
+          globalSource++;
+          if (globalSource > 1) globalSource = 0;
           const index = 3;
           const cardId = game.otherTeam[source].hand[index].id;
           f({
