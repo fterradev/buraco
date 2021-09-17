@@ -268,10 +268,10 @@ export const CardComponent = ({
   };
   const { rank, suit } = card;
   const realRank =
-    1 <= rank && rank <= 9
-      ? String(rank)
-      : rank === 0
+    rank === 1
       ? "A"
+      : 2 <= rank && rank <= 9
+      ? String(rank)
       : ["=", "J", "Q", "K"][rank - 10];
   const realSuit = ["[", "]", "{", "}"][suit];
   const color = suit % 2 === 0 ? "red" : "black";

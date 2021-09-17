@@ -36,11 +36,11 @@ export interface IGameProperties {
   moves: Record<number, IMove>,
 }
 
-const mesaCards = deck.slice(0, 4);
+const mesaCards = deck.slice(0, 7);
 const handCards = deck.slice(13, 13 + 11);
-const otherCards1 = deck.slice(26, 26 + 11);
-const otherCards2 = deck.slice(39, 39 + 11);
-const otherCards3 = deck.slice(52, 52 + 11);
+const otherCards1 = deck.slice(29, 29 + 11);
+const otherCards2 = deck.slice(40, 40 + 11);
+const otherCards3 = deck.slice(51, 51 + 11);
 const gameDeck = deck.slice(65);
 
 export const defaultGameProperties: IGameProperties = {
