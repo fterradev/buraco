@@ -21,7 +21,7 @@ let globalSource = 0;
 const getSourceCards = (game: IGameProperties, source: number | string) => {
   let sourceCards: MovingCard[] = [];
   if (typeof source === 'number') {
-    sourceCards = game.otherTeam[source].hand;
+    sourceCards = source === 2 ? game.partner.hand : game.otherTeam[source].hand;
   }
   if (source === 'mesa') {
     sourceCards = game.mesaCards;
@@ -87,7 +87,11 @@ function Game() {
             const index = sourceCards.findIndex(card => card.id === enteringCard.id);
             const newCards = [...sourceCards.slice(0, index), ...sourceCards.slice(index + 1)];
             if (typeof source === 'number') {
-              newGame.otherTeam[source].hand = newCards;
+              if (source < 2) {
+                newGame.otherTeam[source].hand = newCards;
+              } else {
+                newGame.partner.hand = newCards;
+              }
             }
             if (source === 'mesa') {
               newGame.mesaCards = newCards;
@@ -111,14 +115,15 @@ function Game() {
         {/* <div>{game.mesaCards.length}</div> */}
         <MainView />
         <button onClick={() => {
-          const source = globalSource;
-          globalSource++;
-          if (globalSource > 1) globalSource = 0;
+          if (globalSource > 2) globalSource = 0;
+          const sourceIndex = globalSource;
+          const source = (sourceIndex === 2) ? game.partner : game.otherTeam[sourceIndex];
           const index = 3;
-          const cardId = game.otherTeam[source].hand[index].id;
+          const cardId = source.hand[index].id;
+          globalSource++;
           f({
             cardId,
-            source,
+            source: sourceIndex,
             destination: 'mesa'
           });
         }}>

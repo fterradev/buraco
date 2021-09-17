@@ -77,7 +77,7 @@ const leftCardWidth = (position: string) => {
     case "right":
       return "(var(--card-height))";
     default:
-      break;
+      return "0px";
   }
 }
 
@@ -88,7 +88,16 @@ const leftCardMove = (position: string) => {
     case "right":
       return "((-0.5) * var(--card-height))";
     default:
-      break;
+      return "0px";
+  }
+}
+
+const topCardMove = (position: string) => {
+  switch (position) {
+    case "top":
+      return "(0.5 * var(--card-height))";
+    default:
+      return "0px";
   }
 }
 
@@ -99,7 +108,7 @@ const rotate = (position: string) => {
     case "right":
       return "rotate(90deg)";
     default:
-      break;
+      return "unset";
   }
 }
 
@@ -110,7 +119,7 @@ const rotateOrigin = (position: string) => {
     case "right":
       return "left top";
     default:
-      break;
+      return "unset";
   }
 }
 
@@ -129,7 +138,7 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
 
     25% {
       left: ${({initial}) => `calc(${initial.position.x}px + ${leftCardWidth(initial.position.position)} + ${leftCardMove(initial.position.position)})`};
-      top: ${({initial}) => initial.position.y}px;
+      top: ${({initial}) => `calc(${initial.position.y}px + ${topCardMove(initial.position.position)})`};
       position: absolute;
       transform: ${({initial}) => rotate(initial.position.position)};
       transform-origin: ${({initial}) => rotateOrigin(initial.position.position)};
@@ -142,6 +151,8 @@ const CssSlideIn = createGlobalStyle<CssSlideInProps>`
       left: ${({final}) => final.position.x}px;
       top: ${({final}) => final.position.y}px;
       position: absolute;
+      transform: unset;
+      transform-origin: unset;
       margin: 0;
       animation-timing-function: ease-out;
       // z-index: 10;

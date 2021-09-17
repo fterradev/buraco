@@ -48,4 +48,9 @@ Well, maybe we should have just the Card component, but more flexible.
 
 16. Fix z-index for animations.
 
-17. Remove Card with number 1.
+---17. Remove Card with number 1.---
+DONE
+
+18. Fix/allow multiple moves/animations at the same time.
+
+19. Increase discarded area. Align content with top.
