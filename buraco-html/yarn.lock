@@ -1571,6 +1571,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
 
+"@types/lodash@^4.14.170":
+  version "4.14.173"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.173.tgz#9d3b674c67a26cf673756f6aca7b429f237f91ed"
+  integrity sha512-vv0CAYoaEjCw/mLy96GBTnRoZrSxkGE0BKzKimdR8P3OzrNYNvBgtW7p055A+E8C31vXNUhWKoFCbhq7gbyhFg==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -1642,10 +1647,10 @@
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.35.tgz#9f3d38b2f548d64beab4510b4eddc5a526b81724"
   integrity sha512-MI8YmxFS+jMkIziycT5ickBWK1sZwDwy16mgH/j99Mcom6zRG/NimNGQ3vJV0uX5G6g/hEw0FG3w3b3sT5OUGw==
 
-"@types/sortablejs@^1.10.6":
-  version "1.10.6"
-  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.6.tgz#98725ae08f1dfe28b8da0fdf302c417f5ff043c0"
-  integrity sha512-QRz8Z+uw2Y4Gwrtxw8hD782zzuxxugdcq8X/FkPsXUa1kfslhGzy13+4HugO9FXNo+jlWVcE6DYmmegniIQ30A==
+"@types/sortablejs@^1.10.7":
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.7.tgz#ab9039c85429f0516955ec6dbc0bb20139417b15"
+  integrity sha512-lGCwwgpj8zW/ZmaueoPVSP7nnc9t8VqVWXS+ASX3eoUUENmiazv0rlXyTRludXzuX9ALjPsMqBu85TgJNWbTOg==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -6910,6 +6915,11 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 loglevel@^1.6.6:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.7.tgz#b3e034233188c68b889f5b862415306f565e2c56"
@@ -9161,6 +9171,16 @@ react-transition-group@^4.4.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-transition-group@^4.4.1:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"
+  integrity sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+
 react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
@@ -10029,10 +10049,10 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
-sortablejs@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.13.0.tgz#3ab2473f8c69ca63569e80b1cd1b5669b51269e9"
-  integrity sha512-RBJirPY0spWCrU5yCmWM1eFs/XgX2J5c6b275/YyxFRgnzPhKl/TDeU2hNR8Dt7ITq66NRPM4UlOt+e5O4CFHg==
+sortablejs@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.14.0.tgz#6d2e17ccbdb25f464734df621d4f35d4ab35b3d8"
+  integrity sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==
 
 source-list-map@^2.0.0:
   version "2.0.1"
@@ -10599,9 +10619,9 @@ tmp@^0.0.33:
     os-tmpdir "~1.0.2"
 
 tmpl@1.0.x:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
-  integrity sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
+  integrity sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==
 
 to-array@0.1.4:
   version "0.1.4"
