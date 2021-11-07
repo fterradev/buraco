@@ -74,7 +74,7 @@ export function OtherPlayerCardComponent({
   const transitionStyles: Record<string, React.CSSProperties> = {
     exiting: {
       animationDuration: CARD_MOVE_DURATION,
-      animationName: "remove"
+      animationName: position === "top" ? "removeWidth" : "removeHeight"
     },
   };
   return (

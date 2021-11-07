@@ -16,7 +16,7 @@ And also highlight each dropping area. Always(1) and/or during hover(2). If both
     6.2.1. If Card uses OtherPlayerCard, will need to move them to the Card containers as well (see 6.1).
 
 > So maybe, instead of moving to the container, create a CSS class and just apply to the container.
-> As far as I rememeber, I believe non-transitioning properties need to be kept on the container child style definition, to avoid issues with the animation. (I may be wrong)
+> As far as I rememeber, I believe non-transition properties need to be kept on the container child style definition, to avoid issues with the animation. (I may be wrong)
 
 7. Uniformize other-players/partner. (source/destination id)
 
@@ -39,7 +39,7 @@ Idea:
 And when a component wants to render this card, it first checks that the card location matches its own location.
 When it does not, it should just allow an empty space there (until the animation is done).
 
-And we can have the concept of "HypotheticalCard" (or some other name) that is either an actual card or just an empty space (for layout purposes).
+And we can have the concept of "HypotheticalCard", or "CardPlaceholder" (or some other name) that is either an actual card or just an empty space (for layout purposes).
 
 14. OtherPlayerCard should reuse BackCard. Is it possible? - In fact it should reuse Card itself - for making the flip animation possible.
 Well, maybe we should have just the Card component, but more flexible.

@@ -56,13 +56,22 @@ const DiscardedContainer = styled.div`
 `;
 
 const GlobalStyleRemove = createGlobalStyle`
-  @keyframes remove {
+  @keyframes removeHeight {
     from, 75% {
-        height: var(--card-width);
+        height: var(--card-width); // yes, height here refers to var card-width
     }
   
     to {
       height: calc(0.75 * var(--card-width)); // see marginCard
+    }
+  }
+  @keyframes removeWidth {
+    from, 75% {
+        width: var(--card-width);
+    }
+  
+    to {
+      width: calc(0.75 * var(--card-width)); // see marginCard
     }
   }
 `;
