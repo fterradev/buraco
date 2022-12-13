@@ -23,7 +23,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fisher-yates": "^1.0.3",
     "randomstring": "^1.1.5",
     "socket.io": "^2.3.0"
